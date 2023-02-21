@@ -5,11 +5,10 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - testing-deploy
-#  push:
-#    paths:
-#      - "frontend/**"
-#      - ".github/workflows/frontend_testing.yml"
+      - main
+    paths:
+      - "frontend/**"
+      - ".github/workflows/frontend_testing.yml"
 
 
 env:

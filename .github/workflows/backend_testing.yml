@@ -4,12 +4,11 @@ on:
   workflow_dispatch:
   push:
     branches:
-     - testing-deploy
-
-#  push:
-#    paths:
-#      - "backend/**"
-#      - ".github/workflows/backend_testing.yml"
+     - main
+  push:
+    paths:
+      - "backend/**"
+      - ".github/workflows/backend_testing.yml"
 
 jobs:
 
