@@ -6,11 +6,12 @@ on:
       - ".github/workflows/acceptance.yml"
       - "backend/**"
       - "frontend/**"
-
+    branch:
+      - main
 jobs:
 
   build:
-    runs-on: self-hosted
+    runs-on: [self-hosted, m1max]
     strategy:
       matrix:
         include:
