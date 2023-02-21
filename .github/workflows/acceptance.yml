@@ -43,13 +43,13 @@ jobs:
           context: ${{ matrix.image }}
           file: ${{ matrix.image }}/${{ matrix.file }}
           tags: ${{ steps.meta.outputs.tags }}
-          outputs: type=docker,dest=/tmp/${{ matrix.image }}-image.tar
+          outputs: type=docker,dest=${{ runner.temp }}/${{ matrix.image }}-image.tar
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.image }}
-          path: /tmp/${{ matrix.image }}-image.tar
+          path: ${{ runner.temp }}/{{ matrix.image }}-image.tar
 
   acceptance-test:
     runs-on: self-hosted
@@ -66,12 +66,12 @@ jobs:
       - name: Download Images
         uses: actions/download-artifact@v3
         with:
-          path: /tmp
+          path: ${{ runner.temp }}
 
       - name: Load Docker Images
         run: |
-          docker load --input /tmp/backend/backend-image.tar
-          docker load --input /tmp/frontend/frontend-image.tar
+          docker load --input ${{ runner.temp }}/backend-image.tar
+          docker load --input ${{ runner.temp }}/frontend-image.tar
 
       - name: Install Cypress
         run: npm i @plone/volto-testing
