@@ -11,7 +11,7 @@ on:
 jobs:
 
   build:
-    runs-on: [self-hosted, m1max]
+    runs-on: [self-hosted,fred]
     strategy:
       matrix:
         include:
@@ -52,7 +52,7 @@ jobs:
           path: ${{ runner.temp }}/{{ matrix.image }}-image.tar
 
   acceptance-test:
-    runs-on: self-hosted
+    runs-on: [self-hosted,fred]
     needs:
       - build
     steps:
@@ -65,8 +65,20 @@ jobs:
 
       - name: Download Images
         uses: actions/download-artifact@v3
+        id: download-backend
         with:
-          path: ${{ runner.temp }}
+          name: backend
+          path: ${{ runner.temp }}/backend-image.tar
+
+        uses: actions/download-artifact@v3
+        id: download-frontend
+        with:
+          name: frontend
+          path: ${{ runner.temp }}/frontend-image.tar
+      - name: 'Echo download paths'
+        run: |
+          ls ${{steps.download-backend.outputs.download-path}}
+          ls ${{steps.download-frontend.outputs.download-path}}
 
       - name: Load Docker Images
         run: |
