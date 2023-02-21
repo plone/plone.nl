@@ -69,13 +69,15 @@ jobs:
         id: download-backend
         with:
           name: backend
-          path: ${{ runner.temp }}/backend-image.tar
+          path: ${{ runner.temp }}
+
       - name: Download frontend
         uses: actions/download-artifact@v3
         id: download-frontend
         with:
           name: frontend
-          path: ${{ runner.temp }}/frontend-image.tar
+          path: ${{ runner.temp }}
+
       - name: 'Echo download paths'
         run: |
           ls ${{steps.download-backend.outputs.download-path}}
