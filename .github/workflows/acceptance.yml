@@ -63,13 +63,13 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Download Images
+      - name: Download Backend
         uses: actions/download-artifact@v3
         id: download-backend
         with:
           name: backend
           path: ${{ runner.temp }}/backend-image.tar
-
+      - name: Download frontend
         uses: actions/download-artifact@v3
         id: download-frontend
         with:
