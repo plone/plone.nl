@@ -6,8 +6,8 @@ on:
       - ".github/workflows/acceptance.yml"
       - "backend/**"
       - "frontend/**"
-    branch:
-      - main
+    branches:
+       - main
 jobs:
 
   build:
