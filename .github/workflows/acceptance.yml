@@ -49,7 +49,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.image }}
-          path: ${{ runner.temp }}/{{ matrix.image }}-image.tar
+          path: ${{ runner.temp }}/${{ matrix.image }}-image.tar
 
   acceptance-test:
     runs-on: [self-hosted,fred]
