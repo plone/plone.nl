@@ -12,7 +12,7 @@ on:
 jobs:
 
   build:
-    runs-on: [self-hosted,fred]
+    runs-on: [self-hosted]
     strategy:
       matrix:
         include:
@@ -54,7 +54,7 @@ jobs:
           path: ${{ runner.temp }}/${{ matrix.image }}-image.tar
 
   acceptance-test:
-    runs-on: [self-hosted,fred]
+    runs-on: [self-hosted]
     needs:
       - build
     steps:
@@ -89,9 +89,10 @@ jobs:
           docker load --input ${{ runner.temp }}/backend-image.tar
           docker load --input ${{ runner.temp }}/frontend-image.tar
 
-      - name: Install Cypress
-        run: npm i @plone/volto-testing
-
+      # we use yarn now
+      # name: Install Cypress
+      # run: npm i @plone/volto-testing
+  
       - name: Cypress acceptance tests
         uses: cypress-io/github-action@v5
         env:
