@@ -24,6 +24,8 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
+  "private": false,
+  "workspaces": [],
   "addons": [
     "@eeacms/volto-accordion-block",
     "@plone-collective/volto-tito-block",
