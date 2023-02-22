@@ -24,8 +24,6 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
-  "private": false,
-  "workspaces": [],
   "addons": [
     "@eeacms/volto-accordion-block",
     "@plone-collective/volto-tito-block",
@@ -150,7 +148,6 @@
   },
   "devDependencies": {
     "@plone/scripts": "2.3.0",
-    "razzle": "4.2.18",
     "@plone/volto-testing": "3.1.0",
     "@storybook/addon-actions": "6.3.0",
     "@storybook/addon-controls": "6.3.0",
@@ -162,6 +159,7 @@
     "mrs-developer": "*",
     "postcss": "8.3.11",
     "prettier": "2.0.5",
+    "razzle": "4.2.18",
     "stylelint": "14.0.1",
     "stylelint-config-idiomatic-order": "8.1.0",
     "stylelint-config-prettier": "8.0.1",
