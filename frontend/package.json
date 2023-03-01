@@ -160,6 +160,7 @@
     "postcss": "8.3.11",
     "prettier": "2.0.5",
     "razzle": "4.2.18",
+    "razzle-plugin-scss": "4.2.18",
     "stylelint": "14.0.1",
     "stylelint-config-idiomatic-order": "8.1.0",
     "stylelint-config-prettier": "8.0.1",
