@@ -1,2 +1,1 @@
--r requirements/unreleased.txt
-src/ploneconf.core
+-e "src/ploneconf.core[test]"

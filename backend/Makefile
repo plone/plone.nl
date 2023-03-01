@@ -15,37 +15,25 @@ GREEN=`tput setaf 2`
 RESET=`tput sgr0`
 YELLOW=`tput setaf 3`
 
-PLONE_VERSION=6.0.0
-
 BACKEND_FOLDER=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
+CURRENT_USER=$$(whoami)
+USER_INFO=$$(python -c 'import os,grp,pwd;uid=os.getuid();user=pwd.getpwuid(uid);guid=user.pw_gid;print(f"{uid}:{guid}")')
 CODE_QUALITY_VERSION=2.0.2
 ifndef LOG_LEVEL
 	LOG_LEVEL=INFO
 endif
-CURRENT_USER=$$(whoami)
-USER_INFO=$$(id -u ${CURRENT_USER}):$$(getent group ${CURRENT_USER}|cut -d: -f3)
-LINT=docker run --rm -e LOG_LEVEL="${LOG_LEVEL}" -v "${BACKEND_FOLDER}":/github/workspace plone/code-quality:${CODE_QUALITY_VERSION} check
-FORMAT=docker run --rm --user="${USER_INFO}" -e LOG_LEVEL="${LOG_LEVEL}" -v "${BACKEND_FOLDER}":/github/workspace plone/code-quality:${CODE_QUALITY_VERSION} format
+FORMAT_TOOL=docker run --rm --user="${USER_INFO}" -e LOG_LEVEL="${LOG_LEVEL}" -v "${BACKEND_FOLDER}":/github/workspace plone/code-quality:${CODE_QUALITY_VERSION}
+FORMAT=${FORMAT_TOOL} format
 
-IMAGE_NAME=ghcr.io/plone/ploneorg-backend
+LINT_TOOL=docker run --rm -e LOG_LEVEL="${LOG_LEVEL}" -v "${BACKEND_FOLDER}":/github/workspace plone/code-quality:${CODE_QUALITY_VERSION}
+LINT=${LINT_TOOL} check
+
+PLONE_VERSION=$$(cat version.txt)
+
+# Docker Image
+IMAGE_NAME=ghcr.io/plone/ploneconf-backend-2023
 IMAGE_TAG=latest
-
-# Python checks
-PYTHON?=python3
-
-# installed?
-ifeq (, $(shell which $(PYTHON) ))
-  $(error "PYTHON=$(PYTHON) not found in $(PATH)")
-endif
-
-# version ok?
-PYTHON_VERSION_MIN=3.11
-PYTHON_VERSION_OK=$(shell $(PYTHON) -c 'import sys; print((int(sys.version_info[0]), int(sys.version_info[1])) > tuple(map(int, "$(PYTHON_VERSION_MIN)".split("."))))')
-ifeq ($(PYTHON_VERSION_OK),0)
-  $(error "Need python $(PYTHON_VERSION) >= $(PYTHON_VERSION_MIN)")
-endif
-
 
 # Add the following 'help' target to your Makefile
 # And add help text after each target name starting with '\#\#'
@@ -84,35 +72,6 @@ clean-test: ## remove test and coverage artifacts
 	rm -f .coverage
 	rm -fr htmlcov/
 
-bin/pip:
-	@echo "$(GREEN)==> Setup Virtual Env$(RESET)"
-	$(PYTHON) -m venv .
-	bin/pip install -U "pip" "wheel" "cookiecutter" "mxdev"
-
-.PHONY: config
-config: bin/pip  ## Create instance configuration
-	@echo "$(GREEN)==> Create instance configuration$(RESET)"
-	bin/cookiecutter -f --no-input --config-file instance.yaml gh:plone/cookiecutter-zope-instance
-
-# i18n
-bin/i18ndude: bin/pip
-	@echo "$(GREEN)==> Install translation tools$(RESET)"
-	bin/pip install i18ndude
-
-.PHONY: i18n
-i18n: bin/i18ndude ## Update locales
-	@echo "$(GREEN)==> Updating locales$(RESET)"
-	bin/update_locale
-
-# TODO `make build`
-# build:
-
-.PHONY: build-dev
-build-dev: config ## pip install Plone packages
-	@echo "$(GREEN)==> Setup Build$(RESET)"
-	bin/mxdev -c mx.ini
-	bin/pip install -r requirements-mxdev.txt
-
 .PHONY: format
 format: ## Format the codebase according to our standards
 	@echo "$(GREEN)==> Format codebase$(RESET)"
@@ -141,26 +100,6 @@ lint-pyroma: ## validate using pyroma
 lint-zpretty: ## validate ZCML/XML using zpretty
 	$(LINT) zpretty
 
-.PHONY: test
-test: ## run tests
-	bin/pytest
-
-.PHONY: test_quiet
-test_quiet: ## run tests removing deprecation warnings
-	bin/pytest --disable-warnings
-
-.PHONY: create-site
-create-site: instance/etc/zope.ini ## Create a new site from scratch
-	PYTHONWARNINGS=ignore ./bin/zconsole run instance/etc/zope.conf ./scripts/create_site.py
-
-.PHONY: start
-start: ## Start a Plone instance on localhost:8080
-	PYTHONWARNINGS=ignore ./bin/runwsgi instance/etc/zope.ini
-
-.PHONY: debug
-debug: instance/etc/zope.ini ## Run debug console
-	PYTHONWARNINGS=ignore ./bin/zconsole debug instance/etc/zope.conf
-
 .PHONY: build-image
 build-image:  ## Build Docker Image
-	@docker build . -t $(IMAGE_NAME):$(IMAGE_TAG) -f Dockerfile --build-arg PLONE_VERSION=$(PLONE_VERSION)
+	@docker build . -t $(IMAGE_NAME):$(IMAGE_TAG) -f dockerfiles/Dockerfile --build-arg PLONE_VERSION=$(PLONE_VERSION)

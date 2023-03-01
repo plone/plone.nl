@@ -1,19 +1,23 @@
-ARG PLONE_VERSION=6.0.1
-FROM plone/plone-backend:${PLONE_VERSION}
+ARG PLONE_VERSION
+FROM plone/server-acceptance:${PLONE_VERSION}
 
 LABEL maintainer="Plone Foundation <conf@plone.org>" \
       org.label-schema.name="ploneconf-acceptance" \
       org.label-schema.description="Plone Conference 2023 acceptance tests." \
       org.label-schema.vendor="Plone Foundation"
 
-ENV ZSERVER_HOST=0.0.0.0
-ENV ZSERVER_PORT=55001
 ENV CONFIGURE_PACKAGES="plone.restapi,plone.volto,plone.volto.cors,ploneconf.core"
 ENV APPLY_PROFILES="ploneconf.core:default,ploneconf.core:initial"
-RUN ./bin/pip install "plone.app.robotframework==2.0.0a6" "plone.app.testing[robot]==7.0.0a3"
 
-# Add local code
-COPY . .
-RUN ./bin/pip install -r requirements.txt
+# Copy code and requirements
+COPY requirements-prod.txt requirements.txt
+COPY src src/
+COPY scripts scripts/
 
-CMD ["./bin/robot-server",  "plone.app.robotframework.testing.VOLTO_ROBOT_TESTING"]
+# Copy additional zcml
+COPY configure.zcml etc/package-includes/111-project-configure.zcml
+
+# Install pip requirements
+RUN <<EOT
+    ./bin/pip install -r /app/requirements.txt
+EOT

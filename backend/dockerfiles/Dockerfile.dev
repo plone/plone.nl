@@ -1,0 +1,17 @@
+# syntax=docker/dockerfile:1
+ARG PLONE_VERSION
+FROM plone/server-dev:${PLONE_VERSION}
+
+# Copy code and requirements
+COPY requirements.txt pyproject.toml /app/
+COPY src /app/src/
+COPY scripts /app/scripts/
+
+# Copy additional zcml
+COPY configure.zcml etc/package-includes/111-project-configure.zcml
+
+# Install pip requirements
+RUN <<EOT
+    ./bin/python -m pip install -r requirements.txt
+    chown -R 500:500 /app/
+EOT
