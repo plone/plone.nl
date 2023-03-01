@@ -1,5 +1,5 @@
-import { customBlocks } from '@package/components/Blocks';
-import { Person, Talk, Keynote, Training } from '@package/components';
+import { customBlocks } from './components/Blocks';
+import { Person, Talk, Keynote, Training } from './components';
 import DefaultTeaserBody from '@kitconcept/volto-blocks-grid/components/Teaser/DefaultBody';
 import {
   PersonsListingBody,
@@ -7,8 +7,7 @@ import {
   TeaserPersonBody,
   TalksListingBody,
   NewsListingBody,
-} from '@package/components';
-
+} from './components';
 
 const applyConfig = (config) => {
   config.settings = {

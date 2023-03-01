@@ -5,8 +5,8 @@ import { flattenToAppURL } from '@plone/volto/helpers';
 
 import { isInternalURL } from '@plone/volto/helpers/Url/Url';
 import { Icon } from '@plone/volto/components';
-import githubSVG from '@package/icons/github.svg';
-import twitterSVG from '@package/icons/twitter.svg';
+import githubSVG from '../../../icons/github.svg';
+import twitterSVG from '../../../icons/twitter.svg';
 
 import { PreviewImage } from '@plone/volto/components';
 

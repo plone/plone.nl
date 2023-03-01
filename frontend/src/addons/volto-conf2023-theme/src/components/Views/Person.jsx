@@ -2,12 +2,12 @@ import React from 'react';
 import { Container, Label, Tab } from 'semantic-ui-react';
 import { Icon } from '@plone/volto/components';
 import { flattenToAppURL } from '@plone/volto/helpers';
-import githubSVG from '@package/icons/github.svg';
-import twitterSVG from '@package/icons/twitter.svg';
+import githubSVG from '../../icons/github.svg';
+import twitterSVG from '../../icons/twitter.svg';
 import { Link } from 'react-router-dom';
 import DefaultImageSVG from '@plone/volto/components/manage/Blocks/Listing/default-image.svg';
-import { ScheduleInfo } from '@package/components';
-import { SessionInfo } from '@package/components';
+import { ScheduleInfo } from '../../components';
+import { SessionInfo } from '../../components';
 
 const Person = ({ content }) => {
   const getColor = (label) => {

@@ -9,9 +9,9 @@ import cx from 'classnames';
 import { Grid, Header } from 'semantic-ui-react';
 import { LinkMore } from '@plone/volto/components';
 import Icon from '@plone/volto/components/theme/Icon/Icon';
-import beerSVG from '@package/icons/beer.svg';
-import citadelleSVG from '@package/icons/citadelle.svg';
-import snailSVG from '@package/icons/snail.svg';
+import beerSVG from '../../../icons/beer.svg';
+import citadelleSVG from '../../../icons/citadelle.svg';
+import snailSVG from '../../../icons/snail.svg';
 
 /**
  * Venue View block.

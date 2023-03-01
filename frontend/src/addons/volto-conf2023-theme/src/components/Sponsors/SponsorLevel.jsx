@@ -6,10 +6,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Sponsor from './Sponsor';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import bronzeSponsorSVG from '@package/icons/bronzeSponsor.svg';
-import silverSponsorSVG from '@package/icons/silverSponsor.svg';
-import goldSponsorSVG from '@package/icons/goldSponsor.svg';
-import patronSVG from '@package/icons/patron.svg';
+import bronzeSponsorSVG from '../../icons/bronzeSponsor.svg';
+import silverSponsorSVG from '../../icons/silverSponsor.svg';
+import goldSponsorSVG from '../../icons/goldSponsor.svg';
+import patronSVG from '../../icons/patron.svg';
 import Icon from '@plone/volto/components/theme/Icon/Icon';
 
 /**
