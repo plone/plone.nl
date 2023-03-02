@@ -107,8 +107,8 @@ i18n: bin/i18ndude ## Update locales
 # TODO `make build`
 # build:
 
-.PHONY: install
-install: config ## pip install Plone packages
+.PHONY: build-dev
+build-dev: config ## pip install Plone packages
 	@echo "$(GREEN)==> Setup Build$(RESET)"
 	bin/mxdev -c mx.ini
 	bin/pip install -r requirements-mxdev.txt
