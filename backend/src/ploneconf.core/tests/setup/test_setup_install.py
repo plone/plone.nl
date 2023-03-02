@@ -18,4 +18,4 @@ class TestSetupInstall:
 
     def test_latest_version(self, setup_tool):
         """Test latest version of default profile."""
-        assert setup_tool.getLastVersionForProfile(PROFILE)[0] == "20220825001"
+        assert setup_tool.getLastVersionForProfile(PROFILE)[0] == "20230302001"

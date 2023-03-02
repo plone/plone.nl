@@ -26,9 +26,7 @@ class TestUpgrades:
     @pytest.mark.parametrize(
         "src,dst,expected",
         [
-            ("20220505001", "20220712001", 1),
-            ("20220712001", "20220725001", 1),
-            ("20220725001", "20220825001", 1),
+            ("20230302001", "20231002001", 0),
         ],
     )
     def test_available(self, available_steps, src, dst, expected):

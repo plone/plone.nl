@@ -80,7 +80,7 @@ class TestSponsorsService:
             ["silver", 3, 3],
             ["bronze", 4, 3],
             ["supporting", 5, 5],
-            ["organizer", 6, 2],
+            ["organizer", 6, 1],
         ],
     )
     def test_get_sponsors_values(self, api_session, name, idx, total):
