@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FixedBackground } from '@package/components';
+import FixedBackground from '../../FixedBackground/FixedBackground';
 
 const DefaultBody = (props) => {
   const { data, isEditMode } = props;

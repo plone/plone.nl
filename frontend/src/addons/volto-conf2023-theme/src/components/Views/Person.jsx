@@ -6,8 +6,8 @@ import githubSVG from '../../icons/github.svg';
 import twitterSVG from '../../icons/twitter.svg';
 import { Link } from 'react-router-dom';
 import DefaultImageSVG from '@plone/volto/components/manage/Blocks/Listing/default-image.svg';
-import { ScheduleInfo } from '../../components';
-import { SessionInfo } from '../../components';
+import ScheduleInfo from '../Session/ScheduleInfo/ScheduleInfo';
+import SessionInfo from '../Session/SessionInfo/SessionInfo';
 
 const Person = ({ content }) => {
   const getColor = (label) => {

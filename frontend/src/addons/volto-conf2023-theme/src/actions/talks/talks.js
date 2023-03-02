@@ -1,14 +1,14 @@
 /**
- * Sponsors actions
+ * Talks actions
  * @module actions/sponsors/sponsors
  */
 
-import { LIST_TALKS } from '../../constants/ActionTypes';
+import { LIST_TALKS } from '../../constants/ActionTypes.js';
 
 /**
- * List Sponsors function.
- * @function listSponsors
- * @returns {Object} List Sponsors action.
+ * List Talks function.
+ * @function listTalks
+ * @returns {Object} List Talks action.
  */
 export function listTalks() {
   return {

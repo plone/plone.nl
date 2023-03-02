@@ -1,8 +1,8 @@
 import React from 'react';
 import { Container } from 'semantic-ui-react';
-import { PresentersInfo } from '@package/components';
-import { ScheduleInfo } from '@package/components';
-import { SessionInfo } from '@package/components';
+import PresentersInfo from '../Session/PresentersInfo/PresentersInfo';
+import ScheduleInfo from '../Session/ScheduleInfo/ScheduleInfo';
+import SessionInfo from '../Session/SessionInfo/SessionInfo';
 import { Embed } from 'semantic-ui-react';
 
 const Keynote = ({ content }) => {

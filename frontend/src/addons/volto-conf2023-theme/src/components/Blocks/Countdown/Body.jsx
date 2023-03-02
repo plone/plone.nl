@@ -5,7 +5,7 @@
 import React from 'react';
 import Timer from 'react-compound-timer';
 import moment from 'moment';
-import { CTA } from '@package/components';
+import CTA from '../../CTA/CTA';
 import { Icon } from 'semantic-ui-react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 

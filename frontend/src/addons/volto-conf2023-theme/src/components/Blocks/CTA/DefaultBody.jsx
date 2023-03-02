@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CTA } from '@package/components';
+import CTA from '../../CTA/CTA';
 
 const DefaultBody = (props) => {
   const { data, isEditMode } = props;

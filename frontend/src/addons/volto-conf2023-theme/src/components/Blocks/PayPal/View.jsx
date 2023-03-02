@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { PayPal } from '@package/components';
+import PayPal from '../../PayPal/PayPal';
 
 /**
  * View document block class.

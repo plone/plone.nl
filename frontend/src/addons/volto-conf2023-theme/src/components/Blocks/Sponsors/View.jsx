@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Sponsors } from '@package/components';
+import Sponsors from '../../Sponsors/Sponsors';
 
 /**
  * View document block class.

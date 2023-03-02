@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import { injectIntl } from 'react-intl';
-import { Schedule } from '@package/components';
+import Schedule from '../../Schedule/Schedule';
 
 const Body = (props) => {
   const { data, isEditMode } = props;
