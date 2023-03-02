@@ -1,104 +1,57 @@
-name: Deploy frontend testing
-run-name: Deploy to frontend testing by @${{ github.actor }}
-
+name: Frontend testing
+run-name: Frontend testing by @${{ github.actor }}
 on:
   workflow_dispatch:
   push:
-    branches:
-      - main
     paths:
       - "frontend/**"
-      - ".github/workflows/frontend_testing.yml"
-
+      - ".github/workflows/frontend-testing.yml"
 
 env:
-  node-version: 16.x
+  IMAGE_NAME: ghcr.io/plone/ploneconf-frontend-2023
 
 jobs:
 
-  eslint:
+  meta:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./frontend
+    outputs:
+      VOLTO_VERSION: ${{ steps.vars.outputs.VOLTO_VERSION }}
     steps:
-      - name: Checkout codebase
+      - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Use Node.js ${{ env.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.node-version }}
-          cache: 'yarn'
-          cache-dependency-path: 'frontend/yarn.lock'
+      - name: Set VOLTO_VERSION
+        id: vars
+        run: |
+          echo "VOLTO_VERSION=$(cat frontend/version.txt)" >> $GITHUB_OUTPUT
 
-      - name: Install packages
-        run: make install
-
-      - name: Lint
-        run: yarn run lint:ci
-
-  prettier:
+  codeanalysis:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./frontend
-    steps:
-      - name: Checkout codebase
-        uses: actions/checkout@v3
-
-      - name: Run Prettier
-        run: npx prettier@2.0.5 --single-quote --check 'src/**/*.{js,jsx,ts,tsx,css,scss}' --config=package.json
-
-  i18n:
-    name: i18n sync
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend
 
     steps:
-      - name: Checkout codebase
+      - name: Main checkout
         uses: actions/checkout@v3
 
-      - name: Use Node.js ${{ env.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.node-version }}
-          cache: 'yarn'
-          cache-dependency-path: 'frontend/yarn.lock'
-
-      - name: Install packages
-        run: make install
-
-      - name: Test i18n sync
-        run: make i18n-ci
+      - name: Linting
+        run: |
+          make install-frontend
+          make lint-frontend
 
   unit:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./frontend
+
     steps:
       - name: Checkout codebase
         uses: actions/checkout@v3
 
-      - name: Use Node.js ${{ env.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.node-version }}
-          cache: 'yarn'
-          cache-dependency-path: 'frontend/yarn.lock'
-
-      - name: Install packages
-        run: make install
-
       - name: Test
-        run: make test
+        run: |
+          make install-frontend
+          make test-frontend-ci
 
   release:
     runs-on: ubuntu-latest
-    needs: [eslint, prettier, i18n, unit]
+    needs: [meta, codeanalysis, unit]
 
     steps:
 
@@ -110,11 +63,13 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            ghcr.io/plone/ploneconf-frontend-2023
+            ${{ env.IMAGE_NAME }}
+          flavor: |
+            latest=false
           tags: |
             type=ref,event=branch
             type=sha
-            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
+            type=raw,value=latest,enable={{is_default_branch}}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -122,7 +77,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Login to DockerHub
+      - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
@@ -134,24 +89,25 @@ jobs:
         with:
           platforms: linux/amd64
           context: frontend/
-          file: frontend/Dockerfile
+          file: frontend/dockerfiles/Dockerfile
+          build-args: |
+            VOLTO_VERSION=${{ needs.meta.outputs.VOLTO_VERSION }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: $${{ steps.meta.outputs.labels }}
-
 
   deploy:
     if: ${{ github.ref == 'refs/heads/main' }}
     needs:
       - release
     runs-on: ubuntu-latest
-    environment: staging
+    environment: ploneconf2023testing
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Deploy to testing.ploneconf.org
-        uses: kitconcept/docker-stack-deploy@v1.2.0
+      - name: Deploy to 2023.ploneconf.org
+        uses: kitconcept/docker-stack-deploy@v2.0.0
         with:
           registry: "ghcr.io"
           username: ${{ github.actor }}
@@ -160,7 +116,7 @@ jobs:
           remote_port: ${{ secrets.DEPLOY_PORT }}
           remote_user: ${{ secrets.DEPLOY_USER }}
           remote_private_key: ${{ secrets.DEPLOY_SSH }}
-          stack_file: "devops/stacks/plone.org.yml"
-          stack_name: "ploneorg"
+          stack_file: "devops/stacks/testing.ploneconf.org.yml"
+          stack_name: "ploneconftesting"
           env_file: ${{ secrets.ENV_FILE }}
           deploy_timeout: 480

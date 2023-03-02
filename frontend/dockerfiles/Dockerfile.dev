@@ -1,0 +1,17 @@
+# syntax=docker/dockerfile:1
+ARG VOLTO_VERSION
+FROM plone/frontend-dev:${VOLTO_VERSION}
+
+# Copy linter / prettier configs
+COPY --chown=node:node .eslintignore .prettierignore jest-addon.config.js /app/
+
+# Copy jsconfig.json configuration
+COPY --chown=node:node jsconfig.json /app/
+
+# We copy here to install all addons (package.json)
+COPY --chown=node:node src/addons/ /app/src/addons/
+
+RUN <<EOT
+    /setupAddon
+    yarn install --network-timeout 1000000
+EOT

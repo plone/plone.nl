@@ -42,3 +42,4 @@ inituser
 pip-wheel-metadata
 pyvenv.cfg
 .python-version
+.pytest_cache

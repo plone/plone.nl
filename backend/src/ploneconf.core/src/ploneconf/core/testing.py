@@ -10,7 +10,7 @@ import collective.volto.formsupport
 import ploneconf.core
 
 
-class PLONECONFCORELayer(PloneSandboxLayer):
+class Layer(PloneSandboxLayer):
 
     defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE,)
 
@@ -29,26 +29,26 @@ class PLONECONFCORELayer(PloneSandboxLayer):
         applyProfile(portal, "ploneconf.core:initial")
 
 
-PLONECONF_CORE_FIXTURE = PLONECONFCORELayer()
+FIXTURE = Layer()
 
 
-PLONECONF_CORE_INTEGRATION_TESTING = IntegrationTesting(
-    bases=(PLONECONF_CORE_FIXTURE,),
-    name="PLONECONFCORELayer:IntegrationTesting",
+INTEGRATION_TESTING = IntegrationTesting(
+    bases=(FIXTURE,),
+    name="Layer:IntegrationTesting",
 )
 
 
-PLONECONF_CORE_FUNCTIONAL_TESTING = FunctionalTesting(
-    bases=(PLONECONF_CORE_FIXTURE, WSGI_SERVER_FIXTURE),
-    name="PLONECONFCORELayer:FunctionalTesting",
+FUNCTIONAL_TESTING = FunctionalTesting(
+    bases=(FIXTURE, WSGI_SERVER_FIXTURE),
+    name="Layer:FunctionalTesting",
 )
 
 
-PLONECONF_COREACCEPTANCE_TESTING = FunctionalTesting(
+ACCEPTANCE_TESTING = FunctionalTesting(
     bases=(
-        PLONECONF_CORE_FIXTURE,
+        FIXTURE,
         REMOTE_LIBRARY_BUNDLE_FIXTURE,
         WSGI_SERVER_FIXTURE,
     ),
-    name="PLONECONFCORELayer:AcceptanceTesting",
+    name="Layer:AcceptanceTesting",
 )

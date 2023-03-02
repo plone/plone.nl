@@ -1,0 +1,43 @@
+version: "3"
+services:
+
+  frontend-dev:
+    build:
+      context: ../../frontend
+      dockerfile: ./dockerfiles/Dockerfile.dev
+      args:
+        VOLTO_VERSION: ${VOLTO_VERSION:-16}
+    environment:
+      RAZZLE_INTERNAL_API_PATH: http://backend-dev:8080/Plone
+      RAZZLE_API_PATH: http://localhost:8080/Plone
+      RAZZLE_JEST_CONFIG: "jest-addon.config.js"
+    volumes:
+      - ${PROJECT_DIR}/frontend/src/addons:/app/src/addons
+      - ${PROJECT_DIR}/frontend/jest-addon.config.js:/app/jest-addon.config.js
+    ports:
+      - 3000:3000
+      - 3001:3001
+    tty: true
+    profiles:
+      - "dev"
+
+  backend-dev:
+    build:
+      context: ../../backend
+      dockerfile: ./dockerfiles/Dockerfile.dev
+      args:
+        PLONE_VERSION: ${PLONE_VERSION:-6}
+    environment:
+      SITE: Plone
+      CORS_ALLOW_ORIGIN: '*'
+      zope_i18n_compile_mo_files: false
+    ports:
+      - 8080:8080
+    volumes:
+      - ${PROJECT_DIR}/backend/src:/app/src
+      - data:/data
+    profiles:
+      - "dev"
+
+volumes:
+  data: {}

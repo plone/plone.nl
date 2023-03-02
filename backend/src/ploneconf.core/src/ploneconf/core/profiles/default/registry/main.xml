@@ -7,7 +7,7 @@
           interface="Products.CMFPlone.interfaces.controlpanel.ISiteSchema"
           name="plone.site_title"
   >
-    <value>2022 Plone Conference</value>
+    <value>2023 Plone Conference</value>
   </record>
 
   <record field="types_not_searched"
