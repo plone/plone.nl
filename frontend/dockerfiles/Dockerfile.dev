@@ -3,7 +3,7 @@ ARG VOLTO_VERSION
 FROM plone/frontend-dev:${VOLTO_VERSION}
 
 # Copy linter / prettier configs
-COPY --chown=node:node .eslintignore .prettierignore /app/
+COPY --chown=node:node .eslintignore .prettierignore jest-addon.config.js /app/
 
 # Copy jsconfig.json configuration
 COPY --chown=node:node jsconfig.json /app/

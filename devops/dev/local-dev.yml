@@ -10,8 +10,10 @@ services:
     environment:
       RAZZLE_INTERNAL_API_PATH: http://backend-dev:8080/Plone
       RAZZLE_API_PATH: http://localhost:8080/Plone
+      RAZZLE_JEST_CONFIG: "jest-addon.config.js"
     volumes:
       - ${PROJECT_DIR}/frontend/src/addons:/app/src/addons
+      - ${PROJECT_DIR}/frontend/jest-addon.config.js:/app/jest-addon.config.js
     ports:
       - 3000:3000
       - 3001:3001
