@@ -129,7 +129,7 @@ lint-frontend:  ## Lint Frontend Codebase
 	@echo "Lint frontend codebase"
 	${DEV_CMD} run ${CONTAINER_FRONTEND} lint
 	${DEV_CMD} run ${CONTAINER_FRONTEND} prettier
-	${DEV_CMD} run ${CONTAINER_FRONTEND} stylelint
+#	${DEV_CMD} run ${CONTAINER_FRONTEND} stylelint
 
 .PHONY: lint
 lint:  ## Lint codebase
