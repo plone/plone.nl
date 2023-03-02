@@ -4,8 +4,6 @@ run-name: Deploy to frontend testing by @${{ github.actor }}
 on:
   workflow_dispatch:
   push:
-    branches:
-      - main
     paths:
       - "frontend/**"
       - ".github/workflows/frontend_testing.yml"

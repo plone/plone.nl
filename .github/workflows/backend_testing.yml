@@ -3,8 +3,6 @@ run-name: Backend testing by @${{ github.actor }}
 on:
   workflow_dispatch:
   push:
-    branches:
-     - main
     paths:
       - "backend/**"
       - ".github/workflows/backend_testing.yml"
