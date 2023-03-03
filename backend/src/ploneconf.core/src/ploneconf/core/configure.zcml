@@ -24,8 +24,6 @@
 
   <!-- -*- extra stuff goes here -*- -->
 
-  <!-- Force authentication for anonymous, if required by environment or registry settings. -->
-  <subscriber handler=".deny_anonymous.force_authentication"/>
 
   <include package=".vocabularies" />
   <include package=".behaviors" />
