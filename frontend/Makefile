@@ -27,6 +27,12 @@ else
 	CONFIG_SUFFIX=--https
 endif
 
+ifndef NOCACHE
+	NOCACHE_SUFFIX=
+else
+	NOCACHE_SUFFIX=--no-cache
+endif
+
 # Add the following 'help' target to your Makefile
 # And add help text after each target name starting with '\#\#'
 .PHONY: help
@@ -39,4 +45,4 @@ config:  ## Prepare jsconfig and checkout packages
 
 .PHONY: build-image
 build-image:  config ## Build Docker Image
-	@docker build . -t $(IMAGE_NAME):$(IMAGE_TAG) -f dockerfiles/Dockerfile --build-arg VOLTO_VERSION=$(VOLTO_VERSION)
+	@docker buildx build . -t $(IMAGE_NAME):$(IMAGE_TAG) -f dockerfiles/Dockerfile ${NOCACHE_SUFFIX} --build-arg VOLTO_VERSION=$(VOLTO_VERSION)

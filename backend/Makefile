@@ -35,6 +35,12 @@ PLONE_VERSION=$$(cat version.txt)
 IMAGE_NAME=ghcr.io/plone/ploneconf-backend-2023
 IMAGE_TAG=latest
 
+ifndef NOCACHE
+	NOCACHE_SUFFIX=
+else
+	NOCACHE_SUFFIX=--no-cache
+endif
+
 # Add the following 'help' target to your Makefile
 # And add help text after each target name starting with '\#\#'
 .PHONY: help
@@ -102,4 +108,4 @@ lint-zpretty: ## validate ZCML/XML using zpretty
 
 .PHONY: build-image
 build-image:  ## Build Docker Image
-	@docker build . -t $(IMAGE_NAME):$(IMAGE_TAG) -f dockerfiles/Dockerfile --build-arg PLONE_VERSION=$(PLONE_VERSION)
+	docker buildx build . -t $(IMAGE_NAME):$(IMAGE_TAG) -f dockerfiles/Dockerfile ${NOCACHE_SUFFIX} --build-arg PLONE_VERSION=$(PLONE_VERSION) 

@@ -7,6 +7,7 @@ SHELL:=bash
 .DELETE_ON_ERROR:
 MAKEFLAGS+=--warn-undefined-variables
 MAKEFLAGS+=--no-builtin-rules
+MAKEFLAGS+=--output-sync=target
 
 # We like colors
 # From: https://coderwall.com/p/izxssa/colored-makefile-for-golang-projects
@@ -32,10 +33,19 @@ USER_INFO=$$(python -c 'import os,grp,pwd;uid=os.getuid();user=pwd.getpwuid(uid)
 
 # Compose files used in local development
 DEV_COMPOSE=devops/dev/local-dev.yml
+DEV_COMPOSE_OVERRIDE=override.yml
 ACCEPTANCE_COMPOSE=devops/dev/acceptance.yml
 
+
 COMPOSE_CMD=PROJECT_DIR=${PROJECT_DIR} VOLTO_VERSION=${VOLTO_VERSION} PLONE_VERSION=${PLONE_VERSION} USER=${USER_INFO} docker compose
-DEV_CMD=${COMPOSE_CMD} -p ${PROJECT_NAME} -f ${DEV_COMPOSE}
+
+ifneq ("$(wildcard $(DEV_COMPOSE_OVERRIDE))","")
+		DEV_CMD=${COMPOSE_CMD} -p ${PROJECT_NAME} -f ${DEV_COMPOSE} -f ${DEV_COMPOSE_OVERRIDE}
+else
+		DEV_CMD=${COMPOSE_CMD} -p ${PROJECT_NAME} -f ${DEV_COMPOSE}
+endif
+#DEV_CMD=${COMPOSE_CMD} -p ${PROJECT_NAME} -f ${DEV_COMPOSE} -f ${DEV_COMPOSE_OVERRIDE}
+
 ACCEPTANCE_CMD=${COMPOSE_CMD} -p ${PROJECT_NAME}-acceptance -f ${ACCEPTANCE_COMPOSE}
 
 # Container names
@@ -120,12 +130,6 @@ start:  ## Start Backend and Frontend
 	@echo "Start Backend & Frontend for development:"
 	${DEV_CMD} --profile dev up || true
 
-.PHONY: start-build
-start-build:  ## Start Backend and Frontend
-	@echo "Start Backend & Frontend for development:"
-	${DEV_CMD} --profile dev  up --build || true
-
-
 # Code Linting & Formatting
 .PHONY: format-backend
 format-backend:  ## Format Backend Codebase
@@ -189,8 +193,16 @@ test-frontend-ci:  ## Test frontend codebase once
 test:  test-backend test-frontend-ci ## Test codebase
 
 # Build container images
-.PHONY: build-images
-build-images:  ## Build docker images
-	@echo "Build"
-	$(MAKE) -C "./backend/" build-image
+
+.PHONY: build-image-frontend
+build-image-frontend: 
+	@echo "Build Frontend image"
 	$(MAKE) -C "./frontend/" build-image
+
+.PHONY: build-image-backend
+build-image-backend:
+	@echo "Build Backend image"
+	$(MAKE) -C "./backend/" build-image
+
+.PHONY: build-images
+build-images: build-image-frontend build-image-backend
