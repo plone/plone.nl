@@ -13,6 +13,9 @@ services:
       - testing_ploneconf
     deploy:
       replicas: 2
+      placement:
+        constraints:
+          - node.labels.type == app
       labels:
         - traefik.enable=true
         - traefik.docker.network=public
@@ -36,9 +39,13 @@ services:
     - public
     deploy:
       replicas: 2
+      placement:
+        constraints:
+          - node.labels.type == app
       labels:
         - traefik.enable=true
-        - traefik.docker.network=testing_ploneconf
+        - traefik.docker.network=public
+        - traefik.constraint-label=public
         # SERVICE
         - traefik.http.services.testing_ploneconf-backend.loadbalancer.server.port=8080
         # MIDDLEWARES
