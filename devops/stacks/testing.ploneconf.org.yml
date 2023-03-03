@@ -22,13 +22,16 @@ services:
         - traefik.constraint-label=public
         # SERVICE
         - traefik.http.services.testing_ploneconf-frontend.loadbalancer.server.port=3000
+        # MIDDLEWARES
+        ### ClassicUI Access Authentication
+        - traefik.http.middlewares.testing_ploneconf-frontend-auth.basicauth.users=ploneconf:$$2y$$05$$SLsKIKgK.NlD.64HMV42hOUNi3pQM/T.iW4qziWs0xcKHzkaa8T8C
         # HOSTS: Main
         - traefik.http.routers.testing_ploneconf-frontend.rule=Host(`testing.ploneconf.org`)
         - traefik.http.routers.testing_ploneconf-frontend.entrypoints=https
         - traefik.http.routers.testing_ploneconf-frontend.tls=true
         - traefik.http.routers.testing_ploneconf-frontend.tls.certresolver=le
         - traefik.http.routers.testing_ploneconf-frontend.service=testing_ploneconf-frontend
-        - traefik.http.routers.testing_ploneconf-frontend.middlewares=gzip
+        - traefik.http.routers.testing_ploneconf-frontend.middlewares=gzip,testing_ploneconf-frontend-auth
 
   backend:
     image: ghcr.io/plone/ploneconf-2023-backend:${STACK_PARAM:-latest}
@@ -50,7 +53,7 @@ services:
         - traefik.http.services.testing_ploneconf-backend.loadbalancer.server.port=8080
         # MIDDLEWARES
         ### ClassicUI Access Authentication
-        - traefik.http.middlewares.testing_ploneconf-backend-auth.basicauth.users=ploneconf:$$2y$$05$$OcevCKwZYZeq3svCxoUpKOnuC1NAIe5Ey23ZLVrARBbOQMOJr4nyG
+        - traefik.http.middlewares.testing_ploneconf-backend-auth.basicauth.users=ploneconf:$$2y$$05$$SLsKIKgK.NlD.64HMV42hOUNi3pQM/T.iW4qziWs0xcKHzkaa8T8C
         ### Backend ++api++ VHM
         - "traefik.http.middlewares.testing_ploneconf-vhm.replacepathregex.regex=^/\\+\\+api\\+\\+($$|/.*)"
         - "traefik.http.middlewares.testing_ploneconf-vhm.replacepathregex.replacement=/VirtualHostBase/https/testing.plone.org/Plone/++api++/VirtualHostRoot/$$1"
@@ -63,7 +66,7 @@ services:
         - traefik.http.routers.testing_ploneconf-backend.entrypoints=https
         - traefik.http.routers.testing_ploneconf-backend.tls=true
         - traefik.http.routers.testing_ploneconf-backend.service=testing_ploneconf-backend
-        - traefik.http.routers.testing_ploneconf-backend.middlewares=gzip, testing_ploneconf-vhm
+        - traefik.http.routers.testing_ploneconf-backend.middlewares=gzip,testing_ploneconf-backend-auth,testing_ploneconf-vhm
         ### ploneconf.org /ClassicUI - protected with basic auth (prevent SEOs from crawl it)
         - traefik.http.routers.testing_ploneconf-classicui.rule=Host(`testing.ploneconf.org`) && (PathPrefix(`/ClassicUI`))
         - traefik.http.routers.testing_ploneconf-classicui.entrypoints=https
