@@ -3,9 +3,9 @@ version: '3.3'
 services:
 
   frontend:
-    image: ghcr.io/plone/ploneconf-frontend-2023:latest
+    image: ghcr.io/plone/ploneconf-2023-frontend:${STACK_PARAM:-latest}
     environment:
-      RAZZLE_INTERNAL_API_PATH: http://ploneconftesting_backend:8080/Plone
+      RAZZLE_INTERNAL_API_PATH: http://testing-ploneconf-org_backend:8080/Plone
     depends_on:
       - backend
     networks:
@@ -28,7 +28,7 @@ services:
         - traefik.http.routers.testing_ploneconf-frontend.middlewares=gzip
 
   backend:
-    image: ghcr.io/plone/ploneconf-backend-2023:latest
+    image: ghcr.io/plone/ploneconf-2023-backend:${STACK_PARAM:-latest}
     environment:
       RELSTORAGE_DSN: "dbname='${DB_NAME:-plone}' user='${DB_USER:-plone}' host='${DB_HOST:-db}' password='${DB_PASSWORD:-plone}'"
     networks:
@@ -63,6 +63,7 @@ services:
         - traefik.http.routers.testing_ploneconf-classicui.tls=true
         - traefik.http.routers.testing_ploneconf-classicui.service=ploneconf_testing-backend
         - traefik.http.routers.testing_ploneconf-classicui.middlewares=gzip,testing_ploneconf-backend-auth,testing_ploneconf-vhm-classicui
+
 networks:
   public:
     external: true

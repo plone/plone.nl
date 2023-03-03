@@ -1,7 +1,9 @@
-name: Manual Deploy
+name: Deploy to live
 
 on:
-  workflow_dispatch:
+  push:
+    tags:
+      - '*'
 
 jobs:
 
@@ -17,11 +19,10 @@ jobs:
       - name: Set Env Vars
         id: vars
         run: |
-          echo "ENVIRONMENT=${{ vars.STG_ENV }}" >> $GITHUB_OUTPUT
+          echo "ENVIRONMENT=${{ vars.LIVE_ENV }}" >> $GITHUB_OUTPUT
           echo "STACK_NAME=${ENVIRONMENT/./_}" >> $GITHUB_OUTPUT
 
   deploy:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     needs:
       - meta
@@ -42,6 +43,6 @@ jobs:
           remote_private_key: ${{ secrets.DEPLOY_SSH }}
           stack_file: devops/stacks/${{ needs.meta.outputs.ENVIRONMENT }}.yml
           stack_name: ${{ needs.meta.outputs.STACK_NAME }}
-          stack_param: ${{ github.ref_name }}
+          stack_param: "latest"
           env_file: ${{ secrets.ENV_FILE }}
           deploy_timeout: 480
