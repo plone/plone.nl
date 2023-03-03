@@ -80,6 +80,11 @@ start-frontend:  ## Start React Frontend
 install-backend:  ## Build development image for Backend
 	${DEV_CMD} build ${CONTAINER_BACKEND}
 
+.PHONY: debug-backend
+debug-backend:  ## Run bash in the Frontend container
+	${DEV_CMD} run --entrypoint bash ${CONTAINER_backend}
+
+
 .PHONY: start-backend
 start-backend:  ## Start Plone Backend
 	${DEV_CMD} up ${CONTAINER_BACKEND}
@@ -96,9 +101,10 @@ install:  ## Setup containers for backend and frontend
 
 .PHONY: start
 start:  ## Start Backend and Frontend
-	@echo "Start Backend & Frontend"
-	$(MAKE) start-backend
-	$(MAKE) start-frontend
+	@echo "Start Backend & Frontend for development"
+	echo -e "${DEV_CMD} --profile dev up"
+	${DEV_CMD} --profile dev up || true
+
 
 # Code Linting & Formatting
 .PHONY: format-backend
