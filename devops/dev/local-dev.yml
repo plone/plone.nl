@@ -31,6 +31,8 @@ services:
       SITE: Plone
       CORS_ALLOW_ORIGIN: '*'
       zope_i18n_compile_mo_files: false
+      FORCE_AUTH: 1
+    stop_signal: SIGINT
     ports:
       - 8080:8080
     volumes:

@@ -66,13 +66,11 @@ info: ## Debug information about this project
 .PHONY: install-frontend
 install-frontend:  ## Install React Frontend
 	$(MAKE) -C "./frontend/" config
-	@echo -e "\n${DEV_CMD} build ${CONTAINER_FRONTEND}\n"
 	${DEV_CMD} build ${CONTAINER_FRONTEND}
 
 .PHONY: install-frontend-clean
 install-frontend-clean:  ## Install React Frontend
 	$(MAKE) -C "./frontend/" config
-	@echo -e "\n${DEV_CMD} build ${CONTAINER_FRONTEND} --no-cache\n"
 	${DEV_CMD} build ${CONTAINER_FRONTEND} --no-cache
 
 .PHONY: debug-frontend
@@ -82,17 +80,14 @@ debug-frontend:  ## Run bash in the Frontend container
 .PHONY: start-frontend
 start-frontend:  ## Start React Frontend
 	@echo -e "\nStarting frontend only. Don't forget to run the backend separately"
-	echo -e "\nRunning: ${DEV_CMD} up ${CONTAINER_FRONTEND}\n"
 	${DEV_CMD} up ${CONTAINER_FRONTEND} || true
 
 .PHONY: install-backend
 install-backend:  ## Build development image for Backend
-	@echo -e "\n${DEV_CMD} build ${CONTAINER_BACKEND}\n"
 	${DEV_CMD} build ${CONTAINER_BACKEND}
 
 .PHONY: install-backend-clean
 install-backend-clean:  ## Build development image for Backend
-	@echo -e "\n${DEV_CMD} build ${CONTAINER_BACKEND} --no-cache\n"
 	${DEV_CMD} build ${CONTAINER_BACKEND} --no-cache
 
 .PHONY: debug-backend
@@ -102,7 +97,6 @@ debug-backend:  ## Run bash in the Frontend container
 .PHONY: start-backend
 start-backend:  ## Start Plone Backend
 	@echo -e "\nStarting frontend only. Don't forget to run the backend separately"
-	echo -e "\nRunning: ${DEV_CMD} up ${CONTAINER_BACKEND}"
 	${DEV_CMD} up ${CONTAINER_BACKEND}
 
 .PHONY: compose-down
@@ -112,7 +106,7 @@ compose-down-clean:  ## Build development image for Backend
 
 .PHONY: status
 status:  ## Status of the stack
-	@echo -e "\n${DEV_CMD}\n"
+	@echo -e "\nCommand line for docker-compose to append custom commands:\n${DEV_CMD}\n"
 	${DEV_CMD} ps
 
 .PHONY: install
@@ -124,8 +118,12 @@ install:  ## Setup containers for backend and frontend
 .PHONY: start
 start:  ## Start Backend and Frontend
 	@echo "Start Backend & Frontend for development:"
-	echo -e "${DEV_CMD} --profile dev up \n"
 	${DEV_CMD} --profile dev up || true
+
+.PHONY: start-build
+start-build:  ## Start Backend and Frontend
+	@echo "Start Backend & Frontend for development:"
+	${DEV_CMD} --profile dev  up --build || true
 
 
 # Code Linting & Formatting
