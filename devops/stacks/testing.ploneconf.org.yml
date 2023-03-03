@@ -51,10 +51,10 @@ services:
         # MIDDLEWARES
         ### ClassicUI Access Authentication
         - traefik.http.middlewares.testing_ploneconf-backend-auth.basicauth.users=ploneconf:$$2y$$05$$OcevCKwZYZeq3svCxoUpKOnuC1NAIe5Ey23ZLVrARBbOQMOJr4nyG
-        ### Frontend ++api++ VHM
+        ### Backend ++api++ VHM
         - "traefik.http.middlewares.testing_ploneconf-vhm.replacepathregex.regex=^/\\+\\+api\\+\\+($$|/.*)"
-        - "traefik.http.middlewares.testing_ploneconf=vhm.replacepathregex.replacement=/VirtualHostBase/https/testing.plone.org/Plone/++api++/VirtualHostRoot/$$1"
-        ### Frontend ClassicUI VHM
+        - "traefik.http.middlewares.testing_ploneconf-vhm.replacepathregex.replacement=/VirtualHostBase/https/testing.plone.org/Plone/++api++/VirtualHostRoot/$$1"
+        ### Backend ClassicUI VHM
         - "traefik.http.middlewares.testing_ploneconf-vhm-classicui.replacepathregex.regex=^/ClassicUI($$|/.*)"
         - "traefik.http.middlewares.testing_ploneconf-vhm-classicui.replacepathregex.replacement=/VirtualHostBase/https/testing.plone.org/Plone/VirtualHostRoot/_vh_ClassicUI/$$1"
         # ROUTES
