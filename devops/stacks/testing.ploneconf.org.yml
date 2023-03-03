@@ -3,16 +3,14 @@ version: '3.3'
 services:
 
   frontend:
-    image: plone/ploneconf-frontend-2023
+    image: plone/ploneconf-frontend-2023:latest
     environment:
-      RAZZLE_INTERNAL_API_PATH: http://backend:8080/Plone
-    ports:
-    - "3000:3000"
+      RAZZLE_INTERNAL_API_PATH: http://ploneconftesting_backend:8080/Plone
     depends_on:
       - backend
     networks:
-    - public
-    - testing_ploneconf
+      - public
+      - testing_ploneconf
     deploy:
       replicas: 2
       labels:
