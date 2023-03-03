@@ -5,8 +5,7 @@ on:
   push:
     paths:
       - "backend/**"
-
-#      - ".github/workflows/backend-testing.yml"
+      - ".github/workflows/backend-testing.yml"
 
 env:
   IMAGE_NAME: ghcr.io/plone/ploneconf-backend-2023
@@ -142,15 +141,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Debug
+        id: debug_env_print
+        run: |
+          echo '${{ toJSON(env) }}'
+          ping -c2 ${{ env.DEPLOY_HOST }}
+          ping -c2 ${{ env.DEPLOY_HOST_IP }}
+
       - name: Deploy to 2023.ploneconf.org
         uses: kitconcept/docker-stack-deploy@v1.2.0
         with:
           registry: "ghcr.io"
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          remote_host: ${ secrets.DEPLOY_HOST }}
-          remote_port: ${{ secrets.DEPLOY_PORT }}
-          remote_user: ${{ secrets.DEPLOY_USER }}
+          remote_host: ${ env.DEPLOY_HOST }}
+          remote_port: ${{ env.DEPLOY_PORT }}
+          remote_user: ${{ env.DEPLOY_USER }}
           remote_private_key: ${{ secrets.DEPLOY_SSH }}
           stack_file: "devops/stacks/testing.ploneconf.org.yml"
           stack_name: "ploneconftesting"
