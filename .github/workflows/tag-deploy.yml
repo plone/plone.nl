@@ -1,9 +1,10 @@
 name: Deploy to live
 
 on:
-  push:
-    tags:
-      - '*'
+  workflow_dispatch:
+#  push:
+#    tags:
+#      - '*'
 
 jobs:
 
