@@ -70,7 +70,7 @@ install-frontend:  ## Install React Frontend
 	${DEV_CMD} build ${CONTAINER_FRONTEND}
 
 .PHONY: install-frontend-clean
-install-frontend:  ## Install React Frontend
+install-frontend-clean:  ## Install React Frontend
 	$(MAKE) -C "./frontend/" config
 	@echo -e "\n${DEV_CMD} build ${CONTAINER_FRONTEND} --no-cache\n"
 	${DEV_CMD} build ${CONTAINER_FRONTEND} --no-cache
