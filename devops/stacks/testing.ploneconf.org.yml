@@ -55,11 +55,11 @@ services:
         ### ClassicUI Access Authentication
         - traefik.http.middlewares.testing_ploneconf-backend-auth.basicauth.users=ploneconf:$$2y$$05$$SLsKIKgK.NlD.64HMV42hOUNi3pQM/T.iW4qziWs0xcKHzkaa8T8C
         ### Backend ++api++ VHM
-        - "traefik.http.middlewares.testing_ploneconf-vhm.replacepathregex.regex=^/\\+\\+api\\+\\+($$|/.*)"
-        - "traefik.http.middlewares.testing_ploneconf-vhm.replacepathregex.replacement=/VirtualHostBase/https/testing.plone.org/Plone/++api++/VirtualHostRoot/$$1"
+        - traefik.http.middlewares.testing_ploneconf-vhm.replacepathregex.regex=^/\\+\\+api\\+\\+($$|/.*)
+        - traefik.http.middlewares.testing_ploneconf-vhm.replacepathregex.replacement=/VirtualHostBase/https/testing.ploneconf.org/Plone/++api++/VirtualHostRoot/$$1
         ### Backend ClassicUI VHM
-        - "traefik.http.middlewares.testing_ploneconf-vhm-classicui.replacepathregex.regex=^/ClassicUI($$|/.*)"
-        - "traefik.http.middlewares.testing_ploneconf-vhm-classicui.replacepathregex.replacement=/VirtualHostBase/https/testing.plone.org/Plone/VirtualHostRoot/_vh_ClassicUI/$$1"
+        - traefik.http.middlewares.testing_ploneconf-vhm-classicui.replacepathregex.regex=^/ClassicUI($$|/.*)
+        - traefik.http.middlewares.testing_ploneconf-vhm-classicui.replacepathregex.replacement=/VirtualHostBase/https/testing.ploneconf.org/Plone/VirtualHostRoot/_vh_ClassicUI/$$1
         # ROUTES
         ## ploneconf.org API
         - traefik.http.routers.testing_ploneconf-backend.rule=Host(`testing.ploneconf.org`) && (PathPrefix(`/++api++`))
