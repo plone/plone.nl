@@ -17,8 +17,9 @@ jobs:
       - name: Set Env Vars
         id: vars
         run: |
-          echo "ENVIRONMENT=${{ vars.STG_ENV }}" >> $GITHUB_OUTPUT
-          echo "STACK_NAME=${ENVIRONMENT/./_}" >> $GITHUB_OUTPUT
+          ENVIRONMENT=${{ vars.STG_ENV }}
+          echo "ENVIRONMENT=${ENVIRONMENT}" >> $GITHUB_OUTPUT
+          echo "STACK_NAME=${ENVIRONMENT//./-}" >> $GITHUB_OUTPUT
 
   deploy:
     if: ${{ github.event_name == 'workflow_dispatch' }}

@@ -19,8 +19,9 @@ jobs:
       - name: Set Env Vars
         id: vars
         run: |
-          echo "ENVIRONMENT=${{ vars.LIVE_ENV }}" >> $GITHUB_OUTPUT
-          echo "STACK_NAME=${ENVIRONMENT/./_}" >> $GITHUB_OUTPUT
+          ENVIRONMENT=${{ vars.LIVE_ENV }}
+          echo "ENVIRONMENT=${ENVIRONMENT}" >> $GITHUB_OUTPUT
+          echo "STACK_NAME=${ENVIRONMENT//./-}" >> $GITHUB_OUTPUT
 
   deploy:
     runs-on: ubuntu-latest

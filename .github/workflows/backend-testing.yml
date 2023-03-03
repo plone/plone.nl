@@ -26,8 +26,9 @@ jobs:
         id: vars
         run: |
           echo "PLONE_VERSION=$(cat backend/version.txt)" >> $GITHUB_OUTPUT
-          echo "ENVIRONMENT=${{ vars.STG_ENV }}" >> $GITHUB_OUTPUT
-          echo "STACK_NAME=${ENVIRONMENT/./_}" >> $GITHUB_OUTPUT
+          ENVIRONMENT=${{ vars.STG_ENV }}
+          echo "ENVIRONMENT=${ENVIRONMENT}" >> $GITHUB_OUTPUT
+          echo "STACK_NAME=${ENVIRONMENT//./-}" >> $GITHUB_OUTPUT
 
   black:
     runs-on: ubuntu-latest
