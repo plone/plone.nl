@@ -68,7 +68,7 @@ services:
         - traefik.http.routers.testing_ploneconf-classicui.rule=Host(`testing.ploneconf.org`) && (PathPrefix(`/ClassicUI`))
         - traefik.http.routers.testing_ploneconf-classicui.entrypoints=https
         - traefik.http.routers.testing_ploneconf-classicui.tls=true
-        - traefik.http.routers.testing_ploneconf-classicui.service=ploneconf_testing-backend
+        - traefik.http.routers.testing_ploneconf-classicui.service=testing_ploneconf-backend
         - traefik.http.routers.testing_ploneconf-classicui.middlewares=gzip,testing_ploneconf-backend-auth,testing_ploneconf-vhm-classicui
 
 networks:
