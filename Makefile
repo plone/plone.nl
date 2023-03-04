@@ -85,7 +85,7 @@ install-frontend-clean:  ## Install React Frontend
 
 .PHONY: debug-frontend
 debug-frontend:  ## Run bash in the Frontend container
-	${DEV_CMD} run --entrypoint bash ${CONTAINER_FRONTEND} || true
+	${DEV_CMD} run --rm --entrypoint bash ${CONTAINER_FRONTEND} || true
 
 .PHONY: start-frontend
 start-frontend:  ## Start React Frontend
@@ -102,7 +102,7 @@ install-backend-clean:  ## Build development image for Backend
 
 .PHONY: debug-backend
 debug-backend:  ## Run bash in the Frontend container
-	${DEV_CMD} run --entrypoint bash ${CONTAINER_BACKEND} || true
+	${DEV_CMD} run --rm --entrypoint bash ${CONTAINER_BACKEND} || true
 
 .PHONY: start-backend
 start-backend:  ## Start Plone Backend
@@ -139,9 +139,9 @@ format-backend:  ## Format Backend Codebase
 .PHONY: format-frontend
 format-frontend:  ## Format Frontend Codebase
 	@echo "Format frontend codebase"
-	${DEV_CMD} run ${CONTAINER_FRONTEND} lint:fix
-	${DEV_CMD} run ${CONTAINER_FRONTEND} prettier:fix
-	${DEV_CMD} run ${CONTAINER_FRONTEND} stylelint:fix
+	${DEV_CMD} run --rm ${CONTAINER_FRONTEND} lint:fix
+	${DEV_CMD} run --rm ${CONTAINER_FRONTEND} prettier:fix
+	${DEV_CMD} run --rm ${CONTAINER_FRONTEND} stylelint:fix
 
 .PHONY: format
 format:  ## Format codebase
@@ -157,9 +157,9 @@ lint-backend:  ## Lint Backend Codebase
 .PHONY: lint-frontend
 lint-frontend:  ## Lint Frontend Codebase
 	@echo "Lint frontend codebase"
-	${DEV_CMD} run ${CONTAINER_FRONTEND} lint
-	${DEV_CMD} run ${CONTAINER_FRONTEND} prettier
-#	${DEV_CMD} run ${CONTAINER_FRONTEND} stylelint
+	${DEV_CMD} run --rm ${CONTAINER_FRONTEND} lint
+	${DEV_CMD} run --rm ${CONTAINER_FRONTEND} prettier
+#	${DEV_CMD} run --rm ${CONTAINER_FRONTEND} stylelint
 
 .PHONY: lint
 lint:  ## Lint codebase
@@ -177,17 +177,17 @@ lint:  ## Lint codebase
 .PHONY: test-backend
 test-backend:  ## Test backend codebase
 	@echo "Test backend"
-	${DEV_CMD} run ${CONTAINER_BACKEND} /app/bin/pytest src/ploneconf.core/tests
+	${DEV_CMD} run --rm ${CONTAINER_BACKEND} /app/bin/pytest src/ploneconf.core/tests
 
 .PHONY: test-frontend
 test-frontend:  ## Test frontend codebase
 	@echo "Test frontend"
-	${DEV_CMD} run ${CONTAINER_FRONTEND} test --watchAll
+	${DEV_CMD} run --rm ${CONTAINER_FRONTEND} test --watchAll
 
 .PHONY: test-frontend-ci
 test-frontend-ci:  ## Test frontend codebase once
 	@echo "Test frontend"
-	${DEV_CMD} run -e CI=1 ${CONTAINER_FRONTEND} test
+	${DEV_CMD} run --rm -e CI=1 ${CONTAINER_FRONTEND} test
 
 .PHONY: test
 test:  test-backend test-frontend-ci ## Test codebase
@@ -195,7 +195,7 @@ test:  test-backend test-frontend-ci ## Test codebase
 # Build container images
 
 .PHONY: build-image-frontend
-build-image-frontend: 
+build-image-frontend:
 	@echo "Build Frontend image"
 	$(MAKE) -C "./frontend/" build-image
 
