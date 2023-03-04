@@ -1,0 +1,82 @@
+version: '3.3'
+
+services:
+
+  frontend:
+    image: ghcr.io/plone/ploneconf-2023-frontend:${STACK_PARAM:-latest}
+    environment:
+      RAZZLE_INTERNAL_API_PATH: http://2023-ploneconf-org_backend:8080/Plone
+    depends_on:
+      - backend
+    networks:
+      - public
+      - 2023_ploneconf
+    deploy:
+      replicas: 2
+      placement:
+        constraints:
+          - node.labels.type == app
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=public
+        - traefik.constraint-label=public
+        # SERVICE
+        - traefik.http.services.2023_ploneconf-frontend.loadbalancer.server.port=3000
+        # MIDDLEWARES
+        ### ClassicUI Access Authentication
+        - traefik.http.middlewares.2023_ploneconf-frontend-auth.basicauth.users=ploneconf:$$2y$$05$$SLsKIKgK.NlD.64HMV42hOUNi3pQM/T.iW4qziWs0xcKHzkaa8T8C
+        # HOSTS: Main
+        - traefik.http.routers.2023_ploneconf-frontend.rule=Host(`2023.ploneconf.org`)
+        - traefik.http.routers.2023_ploneconf-frontend.entrypoints=https
+        - traefik.http.routers.2023_ploneconf-frontend.tls=true
+        - traefik.http.routers.2023_ploneconf-frontend.tls.certresolver=le
+        - traefik.http.routers.2023_ploneconf-frontend.service=2023_ploneconf-frontend
+        - traefik.http.routers.2023_ploneconf-frontend.middlewares=gzip,2023_ploneconf-frontend-auth
+
+  backend:
+    image: ghcr.io/plone/ploneconf-2023-backend:${STACK_PARAM:-latest}
+    environment:
+      RELSTORAGE_DSN: "dbname='${DB_NAME:-plone}' user='${DB_USER:-plone}' host='${DB_HOST:-db}' password='${DB_PASSWORD:-plone}'"
+    networks:
+    - 2023_ploneconf
+    - public
+    deploy:
+      replicas: 2
+      placement:
+        constraints:
+          - node.labels.type == app
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=public
+        - traefik.constraint-label=public
+        # SERVICE
+        - traefik.http.services.2023_ploneconf-backend.loadbalancer.server.port=8080
+        # MIDDLEWARES
+        ### ClassicUI Access Authentication
+        - traefik.http.middlewares.2023_ploneconf-backend-auth.basicauth.users=ploneconf:$$2y$$05$$SLsKIKgK.NlD.64HMV42hOUNi3pQM/T.iW4qziWs0xcKHzkaa8T8C
+        ### Backend ++api++ VHM
+        - "traefik.http.middlewares.2023_ploneconf-vhm.replacepathregex.regex=^/\\+\\+api\\+\\+($$|/.*)"
+        - "traefik.http.middlewares.2023_ploneconf-vhm.replacepathregex.replacement=/VirtualHostBase/https/2023.ploneconf.org/Plone/++api++/VirtualHostRoot/$$1"
+        ### Backend ClassicUI VHM
+        - "traefik.http.middlewares.2023_ploneconf-vhm-classicui.replacepathregex.regex=^/ClassicUI($$|/.*)"
+        - "traefik.http.middlewares.2023_ploneconf-vhm-classicui.replacepathregex.replacement=/VirtualHostBase/https/2023.ploneconf.org/Plone/VirtualHostRoot/_vh_ClassicUI/$$1"
+        # ROUTES
+        ## ploneconf.org API
+        - traefik.http.routers.2023_ploneconf-backend.rule=Host(`2023.ploneconf.org`) && (PathPrefix(`/++api++`))
+        - traefik.http.routers.2023_ploneconf-backend.entrypoints=https
+        - traefik.http.routers.2023_ploneconf-backend.tls=true
+        - traefik.http.routers.2023_ploneconf-backend.service=2023_ploneconf-backend
+        - traefik.http.routers.2023_ploneconf-backend.middlewares=gzip,2023_ploneconf-vhm
+        ### ploneconf.org /ClassicUI - protected with basic auth (prevent SEOs from crawl it)
+        - traefik.http.routers.2023_ploneconf-classicui.rule=Host(`2023.ploneconf.org`) && (PathPrefix(`/ClassicUI`))
+        - traefik.http.routers.2023_ploneconf-classicui.entrypoints=https
+        - traefik.http.routers.2023_ploneconf-classicui.tls=true
+        - traefik.http.routers.2023_ploneconf-classicui.service=2023_ploneconf-backend
+        - traefik.http.routers.2023_ploneconf-classicui.middlewares=gzip,2023_ploneconf-backend-auth,2023_ploneconf-vhm-classicui
+
+networks:
+  public:
+    external: true
+    driver: overlay
+  2023_ploneconf:
+    driver: overlay
