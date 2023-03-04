@@ -141,7 +141,9 @@ jobs:
     needs:
       - release
       - meta
-    environment: ${{ needs.meta.outputs.ENVIRONMENT }}
+    environment:
+      name: ${{ needs.meta.outputs.ENVIRONMENT }}
+      url: ${{ needs.meta.outputs.ENVIRONMENT }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
