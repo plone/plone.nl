@@ -18,13 +18,13 @@ YELLOW=`tput setaf 3`
 
 # Project Name
 PROJECT_NAME=2023-ploneconf
-
 # Folder containing this Makefile
 PROJECT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 # Versions
 PLONE_VERSION=$$(cat ${PROJECT_DIR}/backend/version.txt)
 VOLTO_VERSION=$$(cat ${PROJECT_DIR}/frontend/version.txt)
+PROJECT_VERSION=$$(cat version.txt)
 
 
 # Get current user information
@@ -206,3 +206,12 @@ build-image-backend:
 
 .PHONY: build-images
 build-images: build-image-frontend build-image-backend
+
+create-tag: # Create a new tag using git
+	@echo "Creating new tag $(PROJECT_VERSION)"
+	if git show-ref --tags v$(PROJECT_VERSION) --quiet; then echo "$(PROJECT_VERSION) already exists";else git tag -a v$(PROJECT_VERSION) -m "Release $(PROJECT_VERSION)" && git push && git push --tags;fi
+
+commit-and-release: # Commit new version change and create tag
+	@echo "Commiting changes"
+	@git commit -am "Use Project $(PROJECT_VERSION)"
+	make create-tag
