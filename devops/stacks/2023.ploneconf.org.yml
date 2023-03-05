@@ -24,7 +24,7 @@ services:
         - traefik.http.services.2023_ploneconf-frontend.loadbalancer.server.port=3000
         # MIDDLEWARES
         ### ClassicUI Access Authentication
-        - traefik.http.middlewares.2023_ploneconf-frontend-auth.basicauth.users=${BASIC_AUTH}
+        - traefik.http.middlewares.2023_ploneconf-frontend-auth.basicauth.users=ploneconf:$$2y$$05$$SLsKIKgK.NlD.64HMV42hOUNi3pQM/T.iW4qziWs0xcKHzkaa8T8C
         # HOSTS: Main
         - traefik.http.routers.2023_ploneconf-frontend.rule=Host(`2023.ploneconf.org`)
         - traefik.http.routers.2023_ploneconf-frontend.entrypoints=https
@@ -53,7 +53,7 @@ services:
         - traefik.http.services.2023_ploneconf-backend.loadbalancer.server.port=8080
         # MIDDLEWARES
         ### ClassicUI Access Authentication
-        - traefik.http.middlewares.2023_ploneconf-backend-auth.basicauth.users=${BASIC_AUTH}
+        - traefik.http.middlewares.2023_ploneconf-backend-auth.basicauth.users=ploneconf:$$2y$$05$$SLsKIKgK.NlD.64HMV42hOUNi3pQM/T.iW4qziWs0xcKHzkaa8T8C
         ### Backend ++api++ VHM
         - "traefik.http.middlewares.2023_ploneconf-vhm.replacepathregex.regex=^/\\+\\+api\\+\\+($$|/.*)"
         - "traefik.http.middlewares.2023_ploneconf-vhm.replacepathregex.replacement=/VirtualHostBase/https/2023.ploneconf.org/Plone/++api++/VirtualHostRoot/$$1"
