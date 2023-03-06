@@ -32,7 +32,7 @@ CURRENT_USER=$$(whoami)
 USER_INFO=$$(python -c 'import os,grp,pwd;uid=os.getuid();user=pwd.getpwuid(uid);guid=user.pw_gid;print(f"{uid}:{guid}")')
 
 # Compose files used in local development
-DEV_COMPOSE=devops/dev/local-dev.yml
+DEV_COMPOSE=docker-compose.yml
 DEV_COMPOSE_OVERRIDE=override.yml
 ACCEPTANCE_COMPOSE=devops/dev/acceptance.yml
 
@@ -48,9 +48,13 @@ endif
 
 ACCEPTANCE_CMD=${COMPOSE_CMD} -p ${PROJECT_NAME}-acceptance -f ${ACCEPTANCE_COMPOSE}
 
-# Container names
-CONTAINER_BACKEND=backend-dev
-CONTAINER_FRONTEND=frontend-dev
+# Service Names
+SERVICE_BACKEND=backend-dev
+SERVICE_FRONTEND=frontend-dev
+
+# Container Names
+CONTAINER_BACKEND=${PROJECT_NAME}-${SERVICE_BACKEND}-1
+CONTAINER_FRONTEND=${PROJECT_NAME}-${SERVICE_FRONTEND}-1
 
 .PHONY: all
 all: install
@@ -76,38 +80,54 @@ info: ## Debug information about this project
 .PHONY: install-frontend
 install-frontend:  ## Install React Frontend
 	$(MAKE) -C "./frontend/" config
-	${DEV_CMD} build ${CONTAINER_FRONTEND}
+	${DEV_CMD} build ${SERVICE_FRONTEND}
 
 .PHONY: install-frontend-clean
 install-frontend-clean:  ## Install React Frontend
 	$(MAKE) -C "./frontend/" config
-	${DEV_CMD} build ${CONTAINER_FRONTEND} --no-cache
+	${DEV_CMD} build ${SERVICE_FRONTEND} --no-cache
 
 .PHONY: debug-frontend
 debug-frontend:  ## Run bash in the Frontend container
-	${DEV_CMD} run --rm --entrypoint bash ${CONTAINER_FRONTEND} || true
+	${DEV_CMD} run --rm --entrypoint bash ${SERVICE_FRONTEND} || true
+
+.PHONY: stop-frontend
+stop-frontend:  ## Stop Frontend
+	${DEV_CMD} stop ${SERVICE_FRONTEND}
+
+.PHONY: start-frontend-daemon
+start-frontend-daemon:  ## Start Frontend as daemon
+	${DEV_CMD} up -d ${SERVICE_FRONTEND}
 
 .PHONY: start-frontend
-start-frontend:  ## Start React Frontend
+start-frontend:  start-frontend-daemon ## Start React Frontend
 	@echo -e "\nStarting frontend only. Don't forget to run the backend separately"
-	${DEV_CMD} up ${CONTAINER_FRONTEND} || true
+	@docker attach ${CONTAINER_FRONTEND}
 
 .PHONY: install-backend
 install-backend:  ## Build development image for Backend
-	${DEV_CMD} build ${CONTAINER_BACKEND}
+	${DEV_CMD} build ${SERVICE_BACKEND}
 
 .PHONY: install-backend-clean
 install-backend-clean:  ## Build development image for Backend
-	${DEV_CMD} build ${CONTAINER_BACKEND} --no-cache
+	${DEV_CMD} build ${SERVICE_BACKEND} --no-cache
 
 .PHONY: debug-backend
 debug-backend:  ## Run bash in the Frontend container
-	${DEV_CMD} run --rm --entrypoint bash ${CONTAINER_BACKEND} || true
+	${DEV_CMD} run --rm --entrypoint bash ${SERVICE_BACKEND} || true
+
+.PHONY: stop-backend
+stop-backend:  ## Stop Frontend
+	${DEV_CMD} stop ${SERVICE_BACKEND}
+
+.PHONY: start-backend-daemon
+start-backend-daemon:  ## Start Plone Backend as daemon
+	${DEV_CMD} up -d ${SERVICE_BACKEND}
 
 .PHONY: start-backend
-start-backend:  ## Start Plone Backend
-	@echo -e "\nStarting frontend only. Don't forget to run the backend separately"
-	${DEV_CMD} up ${CONTAINER_BACKEND}
+start-backend:  start-backend-daemon ## Start Plone Backend
+	@echo -e "\nStarting backend only. Don't forget to run the frontend separately"
+	@docker attach ${CONTAINER_BACKEND}
 
 .PHONY: compose-down
 compose-down-clean:  ## Build development image for Backend
@@ -139,9 +159,9 @@ format-backend:  ## Format Backend Codebase
 .PHONY: format-frontend
 format-frontend:  ## Format Frontend Codebase
 	@echo "Format frontend codebase"
-	${DEV_CMD} run --rm ${CONTAINER_FRONTEND} lint:fix
-	${DEV_CMD} run --rm ${CONTAINER_FRONTEND} prettier:fix
-	${DEV_CMD} run --rm ${CONTAINER_FRONTEND} stylelint:fix
+	${DEV_CMD} run --rm ${SERVICE_FRONTEND} lint:fix
+	${DEV_CMD} run --rm ${SERVICE_FRONTEND} prettier:fix
+	${DEV_CMD} run --rm ${SERVICE_FRONTEND} stylelint:fix
 
 .PHONY: format
 format:  ## Format codebase
@@ -157,9 +177,9 @@ lint-backend:  ## Lint Backend Codebase
 .PHONY: lint-frontend
 lint-frontend:  ## Lint Frontend Codebase
 	@echo "Lint frontend codebase"
-	${DEV_CMD} run --rm ${CONTAINER_FRONTEND} lint
-	${DEV_CMD} run --rm ${CONTAINER_FRONTEND} prettier
-#	${DEV_CMD} run --rm ${CONTAINER_FRONTEND} stylelint
+	${DEV_CMD} run --rm ${SERVICE_FRONTEND} lint
+	${DEV_CMD} run --rm ${SERVICE_FRONTEND} prettier
+#	${DEV_CMD} run --rm ${SERVICE_FRONTEND} stylelint
 
 .PHONY: lint
 lint:  ## Lint codebase
@@ -177,17 +197,17 @@ lint:  ## Lint codebase
 .PHONY: test-backend
 test-backend:  ## Test backend codebase
 	@echo "Test backend"
-	${DEV_CMD} run --rm ${CONTAINER_BACKEND} /app/bin/pytest src/ploneconf.core/tests
+	${DEV_CMD} run --rm ${SERVICE_BACKEND} /app/bin/pytest src/ploneconf.core/tests
 
 .PHONY: test-frontend
 test-frontend:  ## Test frontend codebase
 	@echo "Test frontend"
-	${DEV_CMD} run --rm ${CONTAINER_FRONTEND} test --watchAll
+	${DEV_CMD} run --rm ${SERVICE_FRONTEND} test --watchAll
 
 .PHONY: test-frontend-ci
 test-frontend-ci:  ## Test frontend codebase once
 	@echo "Test frontend"
-	${DEV_CMD} run --rm -e CI=1 ${CONTAINER_FRONTEND} test
+	${DEV_CMD} run --rm -e CI=1 ${SERVICE_FRONTEND} test
 
 .PHONY: test
 test:  test-backend test-frontend-ci ## Test codebase
