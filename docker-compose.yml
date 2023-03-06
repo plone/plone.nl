@@ -3,7 +3,7 @@ services:
 
   frontend-dev:
     build:
-      context: ../../frontend
+      context: ./frontend
       dockerfile: ./dockerfiles/Dockerfile.dev
       args:
         VOLTO_VERSION: ${VOLTO_VERSION:-16}
@@ -24,7 +24,7 @@ services:
 
   backend-dev:
     build:
-      context: ../../backend
+      context: ./backend
       dockerfile: ./dockerfiles/Dockerfile.dev
       args:
         PLONE_VERSION: ${PLONE_VERSION:-6}
