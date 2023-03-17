@@ -44,7 +44,7 @@ const applyConfig = (config) => {
     isMultilingual: false,
     supportedLanguages: ['en'],
     defaultLanguage: 'en',
-    matomoSiteId: '4',
+    matomoSiteId: '10',
     matomoUrlBase: 'https://stats.ploneconf.org/',
     socialNetworks: [
       {
