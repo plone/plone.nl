@@ -1,3 +1,4 @@
 .vscode
-dev-override.yml
+override.yml
+docker-compose-override.yml
 data/

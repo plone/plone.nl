@@ -6,7 +6,8 @@ on:
     paths:
       - "frontend/**"
       - ".github/workflows/frontend-testing.yml"
-
+    tags:
+      - "!*"
 env:
   IMAGE_NAME_SUFFIX: frontend
 
@@ -16,8 +17,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       VOLTO_VERSION: ${{ steps.vars.outputs.VOLTO_VERSION }}
-      ENVIRONMENT: ${{ steps.vars.outputs.ENVIRONMENT }}
-      STACK_NAME: ${{ steps.vars.outputs.STACK_NAME }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -26,9 +25,6 @@ jobs:
         id: vars
         run: |
           echo "VOLTO_VERSION=$(cat frontend/version.txt)" >> $GITHUB_OUTPUT
-          ENVIRONMENT=${{ vars.STG_ENV }}
-          echo "ENVIRONMENT=${ENVIRONMENT}" >> $GITHUB_OUTPUT
-          echo "STACK_NAME=${ENVIRONMENT//./-}" >> $GITHUB_OUTPUT
 
   codeanalysis:
     runs-on: ubuntu-latest
@@ -76,9 +72,6 @@ jobs:
             type=sha
             type=raw,value=latest,enable={{is_default_branch}}
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
@@ -108,8 +101,8 @@ jobs:
       - release
       - meta
     environment:
-      name: ${{ needs.meta.outputs.ENVIRONMENT }}
-      url: ${{ needs.meta.outputs.ENVIRONMENT }}
+      name: testing.ploneconf.org
+      url: testing.ploneconf.org
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -124,8 +117,8 @@ jobs:
           remote_port: ${{ secrets.DEPLOY_PORT }}
           remote_user: ${{ secrets.DEPLOY_USER }}
           remote_private_key: ${{ secrets.DEPLOY_SSH }}
-          stack_file: devops/stacks/${{ needs.meta.outputs.ENVIRONMENT }}.yml
-          stack_name: ${{ needs.meta.outputs.STACK_NAME }}
+          stack_file: devops/stacks/testing.ploneconf.org.yml
+          stack_name: testing_ploneconf_org
           stack_param: ${{ github.ref_name }}
           env_file: ${{ secrets.ENV_FILE }}
           deploy_timeout: 480
