@@ -8,6 +8,7 @@ on:
       - ".github/workflows/frontend-testing.yml"
 
 env:
+  IMAGE_NAME_PREFIX: ghcr.io/plone/ploneconf-2023
   IMAGE_NAME_SUFFIX: frontend
 
 jobs:
@@ -63,7 +64,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            ${{ vars.IMAGE_NAME_PREFIX }}-${{ env.IMAGE_NAME_SUFFIX }}
+            ${{ env.IMAGE_NAME_PREFIX }}-${{ env.IMAGE_NAME_SUFFIX }}
           flavor: |
             latest=false
           tags: |

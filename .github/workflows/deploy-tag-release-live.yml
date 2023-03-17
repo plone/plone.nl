@@ -7,6 +7,7 @@ on:
       - '*'
 
 env:
+  IMAGE_NAME_PREFIX: ghcr.io/plone/ploneconf-2023
   BACKEND_IMAGE_NAME_SUFFIX: backend
   FRONTEND_IMAGE_NAME_SUFFIX: frontend
 
@@ -41,7 +42,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            ${{ vars.IMAGE_NAME_PREFIX }}-${{ env.FRONTEND_IMAGE_NAME_SUFFIX }}
+            ${{ env.IMAGE_NAME_PREFIX }}-${{ env.FRONTEND_IMAGE_NAME_SUFFIX }}
           flavor: |
             latest=false
           tags: |
