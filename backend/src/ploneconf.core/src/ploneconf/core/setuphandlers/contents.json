@@ -24,16 +24,6 @@
     "exclude_from_nav": false
   },
   {
-    "_parent": "images",
-    "type": "Image",
-    "id": "sponsors-plan.png",
-    "title": "Sponsor Plan",
-    "description": "",
-    "_image": "images/sponsors-plan.png",
-    "_transitions": [],
-    "exclude_from_nav": false
-  },
-  {
     "_parent": "",
     "type": "Document",
     "id": "tickets",
@@ -186,12 +176,12 @@
       },
       "49a36db8-fe21-43ba-80dd-4eb1545f7dfb": {
         "@type": "slate",
-        "plaintext": "Join the 2022 edition of the Plone Conference, the annual event about the Plone CMS, Zope, Guillotina, Pyramid and Volto.",
+        "plaintext": "Join the 2023 edition of the Plone Conference, the annual event about the Plone CMS, Zope, Guillotina, Pyramid and Volto.",
         "value": [
           {
             "children": [
               {
-                "text": "Join the 2022 edition of the Plone Conference, the annual event about the Plone CMS, Zope, Guillotina, Pyramid and Volto."
+                "text": "Join the 2023 edition of the Plone Conference, the annual event about the Plone CMS, Zope, Guillotina, Pyramid and Volto."
               }
             ],
             "type": "p"
@@ -200,17 +190,17 @@
       },
       "573bc852-7703-4310-ba23-7250052f7c26": {
         "@type": "slate",
-        "plaintext": "The conference will be held in Namur, Belgium from October 10th to 16th.",
+        "plaintext": "The conference will be held in Eibar, Basque Country from October 2nd to 8th.",
         "value": [
           {
             "children": [
               {
-                "text": "The conference will be held  Namur, Belgium from "
+                "text": "The conference will be held Eibar, Basque Country from "
               },
               {
                 "children": [
                   {
-                    "text": "October 10th to 16th."
+                    "text": "October 2nd to 8th."
                   }
                 ],
                 "type": "strong"
@@ -257,9 +247,6 @@
             "type": "h2"
           }
         ]
-      },
-      "d85e5173-b0ee-42b0-b3ac-d21236c44c7a": {
-        "@type": "tito"
       }
     },
     "blocks_layout": {
@@ -270,8 +257,7 @@
         "cfe2ea91-d9cb-4742-a765-8186244beafd",
         "9c1bcdf5-9a95-48ef-bce5-af88ad476f69",
         "3c0419a3-c156-4b97-9e0c-5bbdabfae791",
-        "d7113f8e-b3f5-4a57-908f-7e83d6a828aa",
-        "d85e5173-b0ee-42b0-b3ac-d21236c44c7a"
+        "d7113f8e-b3f5-4a57-908f-7e83d6a828aa"
       ]
     },
 
@@ -372,7 +358,7 @@
     "type": "Document",
     "id": "schedule",
     "title": "Schedule",
-    "description": "Schedule of the Plone Conference 2022.",
+    "description": "Schedule of the Plone Conference 2023.",
     "blocks": {
       "17cec173-d436-46ca-8545-35300ffbcb91": {
         "@type": "title"
@@ -384,12 +370,12 @@
             "type": "p",
             "children": [
               {
-                "text": "The 2022 edition of the Plone Conference will be held from the 10th to 16th of October 2022 in Namur, Belgium."
+                "text": "The 2023 edition of the Plone Conference will be held from the 2nd to 8th of October 2023 in Eibar, Basque Country."
               }
             ]
           }
         ],
-        "plaintext": "The 2022 edition of the Plone Conference will be held from the 10th to 16th of October 2022 in Namur, Belgium."
+        "plaintext": "The 2022 edition of the Plone Conference will be held from the 2nd to 8th of October 2023 in Eibar, Basque Country."
       },
       "07ba4462-e6b6-4e77-937e-d32b3ad6abda": {
         "@type": "slate",
@@ -440,12 +426,12 @@
             "type": "p",
             "children": [
               {
-                "text": "Training sessions will happen on 23rd and 24th of October, and their price is included in the event ticket."
+                "text": "Training sessions will happen on the 2nd and 3rd of October, and their price is included in the event ticket."
               }
             ]
           }
         ],
-        "plaintext": "Training sessions will happen on 23rd and 24th of October, and their price is included in the event ticket."
+        "plaintext": "Training sessions will happen on the 2nd and 3rd of October, and their price is included in the event ticket."
       },
       "f90d31d9-ef3c-4800-ab76-95d76cec60c1": {
         "@type": "slate",
@@ -454,12 +440,12 @@
             "type": "p",
             "children": [
               {
-                "text": "From October 25th to 29th, 3 tracks, and more than 50 talks."
+                "text": "From October 4th to 6th, 3 tracks, and more than 50 talks."
               }
             ]
           }
         ],
-        "plaintext": "From October 25th to 29th, 3 tracks, and more than 50 talks."
+        "plaintext": "From October 4th to 6th, 3 tracks, and more than 50 talks."
       },
       "32c096f1-c8a4-4368-b85a-26a9395139f3": {
         "@type": "slate",
@@ -468,12 +454,12 @@
             "type": "p",
             "children": [
               {
-                "text": "Two days of sprint, 30th and 31st of October. Open to the entire Plone Community."
+                "text": "Two days of sprint, 7th and 8th of October. Open to the entire Plone Community."
               }
             ]
           }
         ],
-        "plaintext": "Two days of sprint, 30th and 31st of October. Open to the entire Plone Community."
+        "plaintext": "Two days of sprint, 7th and 8th of October. Open to the entire Plone Community."
       }
     },
     "blocks_layout": {
