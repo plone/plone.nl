@@ -1,5 +1,4 @@
-name: Backend testing
-run-name: Backend testing by @${{ github.actor }}
+name: Backend test, release and deploy to testing.ploneconf.org
 
 on:
   workflow_dispatch:

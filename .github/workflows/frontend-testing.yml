@@ -1,5 +1,5 @@
-name: Frontend testing
-run-name: Frontend testing by @${{ github.actor }}
+name: Frontend test, release and deploy to testing.ploneconf.org
+
 on:
   workflow_dispatch:
   push:
