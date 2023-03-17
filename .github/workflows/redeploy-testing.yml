@@ -6,7 +6,7 @@ on:
 jobs:
 
   deploy:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
+    if: github.event_name == 'workflow_dispatch'
     concurrency: deploy_testing
     runs-on: ubuntu-latest
     environment:
