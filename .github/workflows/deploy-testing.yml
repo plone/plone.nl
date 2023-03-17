@@ -1,4 +1,4 @@
-name: Manual Deploy
+name: Deploy 'latest' image tags to testing.ploneconf.org
 
 on:
   workflow_dispatch:

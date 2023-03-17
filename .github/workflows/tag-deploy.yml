@@ -1,4 +1,4 @@
-name: Deploy to live
+name: Deploy tag to live website 2023.ploneconf.org
 
 on:
   workflow_dispatch:
