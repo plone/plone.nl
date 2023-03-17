@@ -233,5 +233,5 @@ create-tag: # Create a new tag using git
 
 commit-and-release: # Commit new version change and create tag
 	@echo "Commiting changes"
-	@git commit -am "Use Project $(PROJECT_VERSION)"
+	@git commit -am "Tag release as $(PROJECT_VERSION) to deploy"
 	make create-tag
