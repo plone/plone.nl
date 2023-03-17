@@ -6,8 +6,7 @@ on:
     paths:
       - "frontend/**"
       - ".github/workflows/frontend-testing.yml"
-    tags:
-      - "!*"
+
 env:
   IMAGE_NAME_SUFFIX: frontend
 
