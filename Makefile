@@ -17,7 +17,7 @@ RESET=`tput sgr0`
 YELLOW=`tput setaf 3`
 
 # Project Name
-PROJECT_NAME=2023-ploneconf
+PROJECT_NAME=plone-nl
 # Folder containing this Makefile
 PROJECT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 

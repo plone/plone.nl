@@ -32,7 +32,7 @@ LINT=${LINT_TOOL} check
 PLONE_VERSION=$$(cat version.txt)
 
 # Docker Image
-IMAGE_NAME=ghcr.io/plone/ploneconf-backend-2023
+IMAGE_NAME=ghcr.io/plone/plone-nl-backend
 IMAGE_TAG=latest
 
 ifndef NOCACHE

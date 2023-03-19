@@ -18,7 +18,7 @@ YELLOW=`tput setaf 3`
 VOLTO_VERSION=$$(cat version.txt)
 
 # Docker Image
-IMAGE_NAME=ghcr.io/plone/ploneconf-frontend-2023
+IMAGE_NAME=ghcr.io/plone/plone-nl-frontend
 IMAGE_TAG=latest
 
 ifndef CI
