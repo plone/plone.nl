@@ -1,1 +1,1 @@
-src/ploneconf.core
+#src/ploneconf.core
