@@ -7,9 +7,11 @@ on:
       - '*'
 
 env:
-  IMAGE_NAME_PREFIX: ghcr.io/plone/ploneconf-2023
+  IMAGE_NAME_PREFIX: ghcr.io/plone/plone-nl
   BACKEND_IMAGE_NAME_SUFFIX: backend
   FRONTEND_IMAGE_NAME_SUFFIX: frontend
+  DOMAIN: plone.nl
+  NAMESPACE: plone-nl
 
 jobs:
 
@@ -118,8 +120,8 @@ jobs:
       - release-backend
       - release-frontend
     environment:
-      name: 2023.ploneconf.org
-      url: https://2023.ploneconf.org
+      name: ${{ env.DOMAIN }}
+      url: https://${{ env.DOMAIN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -134,8 +136,8 @@ jobs:
           remote_port: ${{ vars.DEPLOY_PORT }}
           remote_user: ${{ vars.DEPLOY_USER }}
           remote_private_key: ${{ secrets.DEPLOY_SSH }}
-          stack_file: devops/stacks/2023.ploneconf.org.yml
-          stack_name: 2023-ploneconf-org
+          stack_file: devops/stacks/${{ env.DOMAIN }}.yml
+          stack_name: ${{ env.NAMESPACE }}
           stack_param: ${{ needs.meta.outputs.TAG }}
           env_file: ${{ secrets.ENV_FILE }}
           deploy_timeout: 480
