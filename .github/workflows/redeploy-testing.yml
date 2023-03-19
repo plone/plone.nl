@@ -3,6 +3,12 @@ name: Redeploy 'latest' image tags to testing.ploneconf.org
 on:
   workflow_dispatch:
 
+env:
+  IMAGE_NAME_PREFIX: ghcr.io/plone/plone-nl
+  IMAGE_NAME_SUFFIX: frontend
+  DOMAIN: testing.plone.nl
+  NAMESPACE: testing-plone-nl
+
 jobs:
 
   deploy:
@@ -10,8 +16,8 @@ jobs:
     concurrency: deploy_testing
     runs-on: ubuntu-latest
     environment:
-      name: testing.ploneconf.org
-      url: https://testing.ploneconf.org
+      name: ${{ env.DOMAIN }}
+      url: https://${{ env.DOMAIN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -26,8 +32,8 @@ jobs:
           remote_port: ${{ vars.DEPLOY_PORT }}
           remote_user: ${{ vars.DEPLOY_USER }}
           remote_private_key: ${{ secrets.DEPLOY_SSH }}
-          stack_file: devops/stacks/testing.poneconf.org.yml
-          stack_name: testing-ploneconf-org
+          stack_file: devops/stacks/${{ env.DOMAIN }}.yml
+          stack_name: ${{ env.NAMESPACE }}
           stack_param: ${{ github.ref_name }}
           env_file: ${{ secrets.ENV_FILE }}
           deploy_timeout: 480

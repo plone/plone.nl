@@ -1,4 +1,4 @@
-name: Frontend test, release and deploy to testing.ploneconf.org
+name: testing.plone.nl Frontend CI/CD
 
 on:
   workflow_dispatch:
@@ -6,12 +6,11 @@ on:
     paths:
       - "frontend/**"
 
-#      - ".github/workflows/frontend-testing.yml"
-
 env:
-  IMAGE_NAME_PREFIX: ghcr.io/plone/ploneconf-2023
+  IMAGE_NAME_PREFIX: ghcr.io/plone/plone-nl
   IMAGE_NAME_SUFFIX: frontend
-
+  DOMAIN: testing.plone.nl
+  NAMESPACE: testing-plone-nl
 jobs:
 
   meta:
@@ -107,8 +106,8 @@ jobs:
       - release
       - meta
     environment:
-      name: testing.ploneconf.org
-      url: testing.ploneconf.org
+      name: ${{ env.DOMMAIN }}
+      url: https://${{ env.DOMMAIN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -123,8 +122,8 @@ jobs:
           remote_port: ${{ vars.DEPLOY_PORT }}
           remote_user: ${{ vars.DEPLOY_USER }}
           remote_private_key: ${{ secrets.DEPLOY_SSH }}
-          stack_file: devops/stacks/testing.ploneconf.org.yml
-          stack_name: testing-ploneconf-org
+          stack_file: devops/stacks/${{ env.DOMMAIN }}.yml
+          stack_name: ${{ env.NAMESPACE }}
           stack_param: ${{ github.ref_name }}
           env_file: ${{ secrets.ENV_FILE }}
           deploy_timeout: 480
