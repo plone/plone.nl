@@ -43,15 +43,15 @@ newSecurityManager(None, admin)
 
 site_id = "Plone"
 payload = {
-    "title": "2022 Plone Conference",
+    "title": "Plone Nederland",
     "profile_id": _DEFAULT_PROFILE,
     "extension_ids": [
-        "ploneconf.core:default",
-        "ploneconf.core:initial",
+        "plonecountry.core:default",
+        "plonecountry.core:initial",
     ],
     "setup_content": False,
-    "default_language": "en",
-    "portal_timezone": "Europe/Berlin",
+    "default_language": "nl",
+    "portal_timezone": "Europe/Amsterdam",
 }
 
 if site_id in app.objectIds() and DELETE_EXISTING:
