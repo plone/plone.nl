@@ -22,15 +22,14 @@ PROJECT_NAME=plone-nl
 PROJECT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 # Versions
-PLONE_VERSION=$$(cat ${PROJECT_DIR}/backend/version.txt)
-VOLTO_VERSION=$$(cat ${PROJECT_DIR}/frontend/version.txt)
+PLONE_VERSION=$$(cat $(PROJECT_DIR)/backend/version.txt)
+VOLTO_VERSION=$$(cat $(PROJECT_DIR)/frontend/version.txt)
 PROJECT_VERSION=$$(cat version.txt)
 
 
 # Get current user information
 CURRENT_USER=$$(whoami)
 USER_INFO=$$(python -c 'import os,grp,pwd;uid=os.getuid();user=pwd.getpwuid(uid);guid=user.pw_gid;print(f"{uid}:{guid}")')
-
 # Compose files used in local development
 DEV_COMPOSE=docker-compose.yml
 DEV_COMPOSE_OVERRIDE=override.yml
@@ -227,11 +226,22 @@ build-image-backend:
 .PHONY: build-images
 build-images: build-image-frontend build-image-backend
 
+.PHONY: create-tag
 create-tag: # Create a new tag using git
 	@echo "Creating new tag $(PROJECT_VERSION)"
 	if git show-ref --tags v$(PROJECT_VERSION) --quiet; then echo "$(PROJECT_VERSION) already exists";else git tag -a v$(PROJECT_VERSION) -m "Release $(PROJECT_VERSION)" && git push && git push --tags;fi
 
+.PHONY: commit-and-release
 commit-and-release: # Commit new version change and create tag
 	@echo "Commiting changes"
 	@git commit -am "Tag release as $(PROJECT_VERSION) to deploy"
 	make create-tag
+
+.PHONY: write-dot-env
+write-dot-env:
+	@echo "Writing .env file"
+	@echo "VOLTO_VERSION=$(VOLTO_VERSION)" > $(PROJECT_DIR)/.env
+	@echo "PLONE_VERSION=$(PLONE_VERSION)" >> $(PROJECT_DIR)/.env
+	@echo "USER=$(USER_INFO)" >> $(PROJECT_DIR)/.env
+	@echo "COMPOSE_PROJECT_NAME=$(PROJECT_NAME)" >> $(PROJECT_DIR)/.env
+	@echo "PROJECT_DIR=$(PROJECT_DIR)" >> $(PROJECT_DIR)/.env
