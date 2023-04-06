@@ -1,0 +1,17 @@
+/*-------------------
+      Base Sizes
+--------------------*/
+/* This is the single variable that controls them all */
+@emSize   : 20px;
+
+/*-------------------
+    Brand Colors
+--------------------*/
+
+@ploneBlue           : #0095D3;
+
+@primaryColor        : @ploneBlue;
+@secondaryColor      : #990033;
+@tertiaryColor      : #700023;
+@grey: #f2f2f4;
+@textColor: @tertiaryColor ;

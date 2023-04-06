@@ -1,5 +1,5 @@
 {
-  "volto-conf2023-theme": {
-    "local": "addons/volto-conf2023-theme/src"
+  "volto-site-theme": {
+    "local": "addons/volto-site-theme/src"
   }
 }

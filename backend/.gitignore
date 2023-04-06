@@ -19,7 +19,7 @@ lib64/
 local/
 node_modules/
 parts/
-src/ploneconf.core/setuphandlers/data/*.json
+src/plonesite.core/setuphandlers/data/*.json
 dist/*
 test.plone_addon/
 var/

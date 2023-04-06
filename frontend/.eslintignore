@@ -3,4 +3,4 @@ src/addons/**/cypress
 src/addons/**/build
 !src/addons
 src/addons/*
-!src/addons/volto-conf2023-theme
+!src/addons/volto-site-theme

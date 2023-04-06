@@ -1,0 +1,17 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    >
+
+  <!-- <genericsetup:upgradeSteps
+      profile="plonesite.core:default"
+      source="20230302001"
+      destination="20231002001"
+      >
+    <genericsetup:upgradeStep
+        title="Upgrade Plone"
+        handler=".upgrade_plone"
+        />
+  </genericsetup:upgradeSteps> -->
+
+</configure>

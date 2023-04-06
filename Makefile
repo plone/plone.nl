@@ -148,7 +148,7 @@ install:  ## Setup containers for backend and frontend
 .PHONY: start
 start:  ## Start Backend and Frontend
 	@echo "Start Backend & Frontend for development:"
-	${DEV_CMD} --profile dev up || true
+	${DEV_CMD} up || true
 
 # Code Linting & Formatting
 .PHONY: format-backend

@@ -1,0 +1,19 @@
+{
+  "portal": [
+    {
+      "email": "ploneuser@plone.org",
+      "properties": {
+        "fullname": "Plone site user",
+        "location": "Earth"
+      },
+      "groups": [
+      ],
+      "roles": [
+        "Member"
+      ],
+      "username": "ploneuser"
+    }
+  ],
+    "team": [
+  ]
+}

@@ -1,5 +1,5 @@
 from AccessControl.SecurityManagement import newSecurityManager
-from ploneconf.core.interfaces import IPloneConfCoreLayer
+from plonesite.core.interfaces import IPlonesiteCoreLayer
 from Products.CMFPlone.factory import _DEFAULT_PROFILE
 from Products.CMFPlone.factory import addPloneSite
 from Testing.makerequest import makerequest
@@ -32,12 +32,13 @@ app = makerequest(app)  # noQA
 request = app.REQUEST
 
 ifaces = [
-    IPloneConfCoreLayer,
-] + list(directlyProvidedBy(request))
+     IPlonesiteCoreLayer,
+ ] + list(directlyProvidedBy(request))
 
 directlyProvides(request, *ifaces)
 
 admin = app.acl_users.getUserById("admin")
+
 admin = admin.__of__(app.acl_users)
 newSecurityManager(None, admin)
 
@@ -46,10 +47,9 @@ payload = {
     "title": "Plone Nederland",
     "profile_id": _DEFAULT_PROFILE,
     "extension_ids": [
-        "plonecountry.core:default",
-        "plonecountry.core:initial",
-    ],
-    "setup_content": False,
+        "plonesite.core:default",
+        "plonesite.core:initial",
+    ],    "setup_content": False,
     "default_language": "nl",
     "portal_timezone": "Europe/Amsterdam",
 }

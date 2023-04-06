@@ -2,6 +2,7 @@ version: "3"
 services:
 
   frontend-dev:
+    image: 'plone-nl-frontend'
     build:
       context: ./frontend
       dockerfile: ./dockerfiles/Dockerfile.dev
@@ -14,15 +15,15 @@ services:
     volumes:
       - ${PROJECT_DIR}/frontend/src/addons:/app/src/addons
       - ${PROJECT_DIR}/frontend/jest-addon.config.js:/app/jest-addon.config.js
+      - .:/workspace:cached
     ports:
       - 3000:3000
       - 3001:3001
     tty: true
     stdin_open: true
-    profiles:
-      - "dev"
 
   backend-dev:
+    image: 'plone-nl-backend'
     build:
       context: ./backend
       dockerfile: ./dockerfiles/Dockerfile.dev
@@ -38,8 +39,7 @@ services:
     volumes:
       - ${PROJECT_DIR}/backend/src:/app/src
       - data:/data
-    profiles:
-      - "dev"
+      - .:/workspace:cached
 
 volumes:
   data: {}

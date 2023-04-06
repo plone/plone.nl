@@ -14,15 +14,15 @@ COPY scripts scripts/
 COPY configure.zcml etc/package-includes/111-project-configure.zcml
 
 # Install pip requirements
-RUN <<EOT
+RUN --mount=type=cache,id=plonesite-pip,target=/root/.cache/pip <<EOT
     ./bin/pip install -r /app/requirements.txt
 EOT
 
 FROM plone/server-prod-config:${PLONE_VERSION}
 
 LABEL maintainer="Plone Foundation <conf@plone.org>" \
-      org.label-schema.name="ploneconf-backend" \
-      org.label-schema.description="Plone Conference 2023 backend." \
+      org.label-schema.name="plonesite-backend" \
+      org.label-schema.description="Plone Site backend." \
       org.label-schema.vendor="Plone Foundation"
 
 # Copy /app from builder

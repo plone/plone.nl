@@ -1,0 +1,19 @@
+{
+  "name": "backend",
+  "id": "ghcr.io/plone/plone-nl-backend",
+  "dockerComposeFile": ["../docker-compose.yml"],
+  "service": "backend-dev",
+  "shutdownAction": "none",
+  "customizations": {
+		"vscode": {
+      "extensions": [
+        "ms-python.vscode-pylance",
+        "visualstudioexptteam.vscodeintellicode",
+        "redhat.vscode-yaml",
+        "esbenp.prettier-vscode",
+        "GitHub.vscode-pull-request-github"
+      ]
+    }
+  },
+  "workspaceFolder": "/workspace/backend"
+}

@@ -1,1 +1,1 @@
-#-e "src/ploneconf.core[test]"
+-e "src/plonesite.core[test]"

@@ -11,7 +11,7 @@ COPY scripts /app/scripts/
 COPY configure.zcml etc/package-includes/111-project-configure.zcml
 
 # Install pip requirements
-RUN <<EOT
+RUN --mount=type=cache,id=plonesite-pip2,target=/root/.cache <<EOT
     ./bin/python -m pip install -r requirements.txt
     chown -R 500:500 /app/
 EOT

@@ -1,11 +1,6 @@
-# 2023.ploneconf.org
+# plone.nl
 
-[![Built with Cookiecutter Plone Starter](https://img.shields.io/badge/built%20with-Cookiecutter%20Plone%20Starter-0083be.svg?logo=cookiecutter)](https://github.com/collective/cookiecutter-plone-starter/)
-[![Black code style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
-[![Backend Tests](https://github.com/plone/2023.ploneconf.org/actions/workflows/backend-testing.yml/badge.svg)](https://github.com/plone/2023.ploneconf.org/actions/workflows/backend-testing.yml)
-[![Frontend Tests](https://github.com/plone/2023.ploneconf.org/actions/workflows/frontend-testing.yml/badge.svg)](https://github.com/plone/2023.ploneconf.org/actions/workflows/frontend-testing.yml)
-
-Plone Conference 2023
+Plone Nederland Site
 
 ## Quick start
 
@@ -19,8 +14,8 @@ Plone Conference 2023
 ### Install
 
 ```shell
-git clone git@github.com:plone/2023.ploneconf.org.git
-cd 2023.ploneconf.org
+git clone git@github.com:plone/plone.nl.git
+cd plone.nl
 make install
 ```
 

@@ -1,0 +1,26 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="plonesite.core"
+    >
+
+  <!-- Set overrides folder for Just-a-Bunch-Of-Templates product -->
+  <include
+      package="z3c.jbot"
+      file="meta.zcml"
+      />
+  <browser:jbot
+      directory="overrides"
+      layer="plonesite.core.interfaces.IPlonesiteCoreLayer"
+      />
+
+  <!-- Publish static files -->
+  <plone:static
+      directory="static"
+      name="plonesite.core"
+      type="plone"
+      />
+
+
+</configure>

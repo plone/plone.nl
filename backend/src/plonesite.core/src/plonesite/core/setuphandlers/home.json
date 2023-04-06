@@ -1,0 +1,50 @@
+{
+  "blocks": {
+    "1006adfe-d9b1-4e70-9b32-a9158310723d": {
+      "@type": "slate",
+      "plaintext": "New Plonesite",
+      "value": [
+        {
+          "children": [
+            {
+              "text": "This is your "
+            },
+            {
+              "type": "b",
+              "children": [
+                {
+                  "text": "new"
+                }
+              ]
+            },
+            {
+              "text": " Plone site."
+            }
+          ],
+          "type": "p"
+        }
+      ]
+    },
+    "5c9dfa7f-9f24-42ab-8ad9-a4ea27d556fd": {
+      "@type": "slate",
+      "value": [
+        {
+          "children": [
+            {
+              "text": "Some other text."
+            }
+          ],
+          "type": "p"
+        }
+      ],
+      "plaintext": "Some other text."
+    }
+  },
+  "blocks_layout": {
+    "items": [
+      "1006adfe-d9b1-4e70-9b32-a9158310723d",
+      "5c9dfa7f-9f24-42ab-8ad9-a4ea27d556fd"
+    ]
+  },
+  "title": "Plonesite"
+}

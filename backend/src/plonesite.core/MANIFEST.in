@@ -1,0 +1,4 @@
+graft src/plonesite
+graft docs
+include *.rst
+global-exclude *.pyc
